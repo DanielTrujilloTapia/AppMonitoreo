@@ -1,0 +1,7 @@
+{
+  "name": "AppMonitoreo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
