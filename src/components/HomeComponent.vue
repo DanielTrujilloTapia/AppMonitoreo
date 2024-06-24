@@ -1,5 +1,8 @@
 <template>
     <ion-page>
+        <ion-header>
+            <toolbar-component></toolbar-component>
+        </ion-header>
         <ion-content>
             <card-reutilizable-component :img="'planificacion-de-tareas.png'" :iconOne="addCircleOutline" :title="'Servicios SITEM'" :subtitle="'Tareas generadas con servicios'" :textOne="'Nueva Tarea'" :iconTwo="eyeOutline" :textTwo="'Consultar Tareas'" />
             <card-reutilizable-component :img="'falla2.png'" :title="'Fallas Mecanicas'" :subtitle="'Tareas sobre fallos mecanicos'" :iconOne="addCircleOutline" :textOne="'Crear Tarea'" :iconTwo="eyeOutline" :textTwo="'Consultar Tareas'" />
@@ -11,16 +14,19 @@
 </template>
 
 <script>
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonContent } from '@ionic/vue';
 import CardReutilizableComponent from '../components/CardReutilizableComponent.vue'
+import ToolbarComponent from '../components/ToolbarComponent.vue'
 import { addCircleOutline, eyeOutline } from 'ionicons/icons';
 
 export default {
     name: 'HomeComponent',
     components: {
         IonPage,
+        IonHeader,
         IonContent,
         CardReutilizableComponent,
+        ToolbarComponent,
         
     },
     setup() {
