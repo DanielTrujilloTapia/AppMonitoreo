@@ -1,5 +1,5 @@
 <template>
-    <ion-card style="margin: 0; margin-bottom: 5px; margin-top: 5px;">
+    <ion-card style="margin: 0; margin-bottom: 5px; ">
         <ion-grid>
             <ion-row>
                 <ion-col size="4" class="container-image">
@@ -7,10 +7,10 @@
                 </ion-col>
                 <ion-col size="8" class="container-text">
                     <div>
-                        <p>{{ title }}</p>
-                        <p>{{ subtitle }}</p>
-                        <p v-if=" textOne != null" ><ion-icon :icon="iconOne" color="success" ></ion-icon> {{textOne}}</p>
-                        <p v-if=" textTwo != null" ><ion-icon :icon="iconTwo" color="success" ></ion-icon> {{textTwo}}</p>
+                        <p class="title-size" >{{ title }}</p>
+                        <p class="subtitle-size">{{ subtitle }}</p>
+                        <ion-item lines="none" v-if=" textOne != null"><ion-icon :icon="iconOne" color="success" class="custom-icon-card"></ion-icon><p class="text-size"> {{textOne}} </p></ion-item>
+                        <ion-item lines="none" v-if=" textTwo != null"><ion-icon :icon="iconTwo" color="success" class="custom-icon-card"></ion-icon><p class="text-size"> {{textTwo}} </p></ion-item>
                     </div>
                 </ion-col>
             </ion-row>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { IonCard, IonGrid, IonCol, IonRow, IonImg, IonIcon } from '@ionic/vue'
+import { IonCard, IonGrid, IonCol, IonRow, IonImg, IonIcon, IonItem } from '@ionic/vue'
 
 export default {
     name: 'CardReutilizableComponent',
@@ -29,7 +29,8 @@ export default {
         IonCol,
         IonRow,
         IonImg,
-        IonIcon
+        IonIcon,
+        IonItem
     },
     props: {
         img: String,
@@ -64,8 +65,25 @@ export default {
     height: 100px;
 }
 
-ion.icon{
-    margin-right: 5px; 
+.custom-icon-card{
+    margin-right: 10px;
+    width: 20px;
+    height: 20px; 
+}
+
+.title-size{
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+.subtitle-size{
+    font-size: 14px;
+    color: rgb(167, 167, 167);
+    font-weight: bold;
+}
+.text-size{
+    font-size: 14px;
+    font-weight: bold;
 }
 
 </style>
