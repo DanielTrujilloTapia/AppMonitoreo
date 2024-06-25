@@ -1,36 +1,32 @@
 <template>
     <ion-toolbar>
-        <ion-title>SITEM</ion-title>
-        <ion-icon :icon="listOutline" slot="end" class="custom-icon"></ion-icon>
+        <ion-title>Sitem</ion-title>
+        <ion-buttons slot="end">
+            <ion-menu-button :auto-hide="false"></ion-menu-button>
+        </ion-buttons>
     </ion-toolbar>
 </template>
 
 <script>
-import { IonToolbar, IonTitle, IonIcon } from '@ionic/vue'
-import { listOutline } from 'ionicons/icons';
+import { IonToolbar, IonTitle, IonButtons, IonMenuButton} from '@ionic/vue'
 
 export default {
     name: 'ToolbarComponent',
     components: {
         IonToolbar,
         IonTitle,
-        IonIcon,
+        IonButtons,
+        IonMenuButton,
     },
     setup() {
 
         return {
-            listOutline
+            
         }
     }
 }
 </script>
 
 <style>
-
-.custom-icon{
-    width: 30px;
-    height: 30px;
-    margin-right: 15px;
-}
 
 </style>
