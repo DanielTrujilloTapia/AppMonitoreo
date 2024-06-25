@@ -9,8 +9,8 @@
                     <div>
                         <p class="title-size" >{{ title }}</p>
                         <p class="subtitle-size">{{ subtitle }}</p>
-                        <ion-item lines="none" v-if=" textOne != null"><ion-icon :icon="iconOne" color="success" class="custom-icon-card"></ion-icon><p class="text-size"> {{textOne}} </p></ion-item>
-                        <ion-item lines="none" v-if=" textTwo != null"><ion-icon :icon="iconTwo" color="success" class="custom-icon-card"></ion-icon><p class="text-size"> {{textTwo}} </p></ion-item>
+                        <ion-item lines="none" v-if=" textOne != null"><ion-icon :icon="iconOne" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textOne}} </p></ion-item>
+                        <ion-item lines="none" v-if=" textTwo != null"><ion-icon :icon="iconTwo" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textTwo}} </p></ion-item>
                     </div>
                 </ion-col>
             </ion-row>
@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped> 
 .container-image{
     display: flex;
     justify-content: center;
@@ -73,12 +73,12 @@ export default {
 
 .title-size{
     font-size: 16px;
-    color: black;
+    color: var(--ion-title-color);
     font-weight: bold;
 }
 .subtitle-size{
     font-size: 14px;
-    color: rgb(167, 167, 167);
+    color: var(--ion-subtitle-color);
     font-weight: bold;
 }
 .text-size{

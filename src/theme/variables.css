@@ -1,2 +1,25 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+:root {
+    /* Degradado utilizado en configuracion: modo claro */
+    --ion-color-primary: rgb(12, 226, 126);
+    --ion-color-white: white;
+    --ion-color-black: black;
+
+
+    --ion-title-color: black;
+    --ion-subtitle-color: rgb(167, 167, 167);
+    }
+  
+  /* Modo oscuro */
+  @media (prefers-color-scheme: dark) {
+    :root {
+        --ion-title-color: rgb(255, 255, 255);
+        --ion-subtitle-color: rgb(167, 167, 167);
+    }
+  }
+  
+  
+  
+  

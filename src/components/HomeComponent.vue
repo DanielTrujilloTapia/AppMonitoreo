@@ -1,12 +1,7 @@
 <template>
     <div>
-        <ion-menu side="end" content-id="main-content">
-            <ion-header>
-                Sitem
-            </ion-header>
-            <ion-content>This is the end menu content.</ion-content>
-        </ion-menu>
-
+        <menu-component/>
+        
         <ion-page id="main-content">
             <ion-header class="header-toolbar-custom">
                 <toolbar-component/>
@@ -25,7 +20,8 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonContent, IonMenu } from '@ionic/vue';
+import { IonPage, IonHeader, IonContent, } from '@ionic/vue';
+import MenuComponent from '../components/MenuComponent.vue'
 import CardReutilizableComponent from '../components/CardReutilizableComponent.vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
 import { addOutline, eyeOutline } from 'ionicons/icons';
@@ -36,7 +32,7 @@ export default {
         IonPage,
         IonHeader,
         IonContent,
-        IonMenu,
+        MenuComponent,
         CardReutilizableComponent,
         ToolbarComponent,
     },
@@ -52,9 +48,7 @@ export default {
 <style scoped>
 
 .header-toolbar-custom {
-    box-shadow: none;
-    border-bottom: solid 1px;
-    border-color: rgb(206, 206, 206);
+    border: none;
 }
 
 </style>
