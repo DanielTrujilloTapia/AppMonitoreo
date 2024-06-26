@@ -3,7 +3,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="4" class="container-image">
-                    <ion-img :src="img" class="custom-image"></ion-img>
+                    <ion-img :src="img" class="custom-image imagen-scale"></ion-img>
                 </ion-col>
                 <ion-col size="8" class="container-text">
                     <div>
@@ -51,7 +51,7 @@ export default {
     align-items: center;
 
     border-right: 1px solid;
-    border-image: linear-gradient(transparent 1%, white 5%, rgb(100, 100, 100) 50%, white 95%, transparent 100%) 1; 
+    border-image: linear-gradient(transparent 10%, rgb(164, 164, 164) 5%, rgb(164, 164, 164) 50%, rgb(164, 164, 164) 95%, transparent 90%) 1; 
 }
 
 .container-text{
@@ -61,8 +61,8 @@ export default {
 }
 
 .custom-image {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
 }
 
 .custom-icon-card{
@@ -85,5 +85,13 @@ export default {
     font-size: 14px;
     font-weight: bold;
 }
+
+@media screen and (max-width: 760px) {
+    .custom-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
 
 </style>
