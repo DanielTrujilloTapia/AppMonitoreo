@@ -20,12 +20,12 @@
 
                 <div class="items-menu">
                     <ion-item lines="none" style="font-size: 20px;">Menu</ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="homeOutline" color="primary"/>Home<ion-icon slot="end" :icon="chevronForwardOutline"/></ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="newspaperOutline" color="primary"/>Servicios Asignados<ion-icon slot="end" :icon="chevronForwardOutline"/></ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="hammerOutline" color="primary"/>Fallas Mecanicas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="calendarNumberOutline" color="primary"/>Tareas Automatizadas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="eyeOutline" color="primary"/>Monitoreo de Tareas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
-                    <ion-item lines="none"><ion-icon class="custom-icon-menu" :icon="peopleOutline" color="primary"/>Usuarios SITEM<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToHome"><ion-icon class="custom-icon-menu" :icon="homeOutline" color="primary"/>Home<ion-icon slot="end" :icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToService"><ion-icon class="custom-icon-menu" :icon="newspaperOutline" color="primary"/>Servicios Asignados<ion-icon slot="end" :icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToFailures"><ion-icon class="custom-icon-menu" :icon="hammerOutline" color="primary"/>Fallas Mecanicas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToAutomated"><ion-icon class="custom-icon-menu" :icon="calendarNumberOutline" color="primary"/>Tareas Automatizadas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToMonitoring"><ion-icon class="custom-icon-menu" :icon="eyeOutline" color="primary"/>Monitoreo de Tareas<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
+                    <ion-item lines="none" @click.prevent="navigateToUsers"><ion-icon class="custom-icon-menu" :icon="peopleOutline" color="primary"/>Usuarios SITEM<ion-icon slot="end":icon="chevronForwardOutline"/></ion-item>
                 </div>
                 
                 <div class="items-ajustes">
@@ -43,6 +43,7 @@
 <script>
 import { IonMenu, IonHeader, IonContent, IonGrid, IonRow, IonCol, IonImg, IonCard, IonIcon, IonItem } from '@ionic/vue'
 import { homeOutline, newspaperOutline, hammerOutline, calendarNumberOutline, eyeOutline, personOutline, peopleOutline, logOutOutline, chevronForwardOutline } from 'ionicons/icons';
+import { useRouter } from 'vue-router';
 
 export default {
     nmae: 'MenuComponent',
@@ -60,7 +61,42 @@ export default {
     },
     setup() {
 
+        const router  = useRouter();
+
+        const navigateToHome = () => {
+            router.push('/home');
+        };
+
+        const navigateToService = () => {
+            router.push('/service');
+        };
+
+        const navigateToFailures = () => {
+            router.push('/failures');
+        };
+
+        const navigateToAutomated = () => {
+            router.push('/automated');
+        };
+
+        const navigateToMonitoring = () => {
+            router.push('/monitoring');
+        };
+
+        const navigateToUsers = () => {
+            router.push('/users');
+        };
+
         return {
+            //NAVIGATE
+            navigateToHome,
+            navigateToService,
+            navigateToFailures,
+            navigateToAutomated,
+            navigateToMonitoring,
+            navigateToUsers,
+
+            //ICONS
             homeOutline,
             hammerOutline,
             newspaperOutline,
@@ -71,6 +107,8 @@ export default {
             logOutOutline,
             chevronForwardOutline,
         }
+    },
+    methods: {
     }
 }
 </script>

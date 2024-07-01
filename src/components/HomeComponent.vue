@@ -1,7 +1,4 @@
-<template>
-    <div>
-        <menu-component/>
-        
+<template >
         <ion-page id="main-content">
             <ion-header class="header-toolbar-custom">
                 <toolbar-component/>
@@ -16,7 +13,6 @@
     
             </ion-content>
         </ion-page>
-    </div>
 </template>
 
 <script>

@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <ion-page>
-            Fallas mecanicas
-        </ion-page>
-    </div>
+    <ion-page>
+        Fallas mecanicas
+    </ion-page>
 </template>
 
 <script>

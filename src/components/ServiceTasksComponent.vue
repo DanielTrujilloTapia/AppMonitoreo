@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <ion-page>
-            tareas de servicios
-        </ion-page>
-    </div>
+    <ion-page>
+        tareas de servicios
+    </ion-page>
 </template>
 
 <script>

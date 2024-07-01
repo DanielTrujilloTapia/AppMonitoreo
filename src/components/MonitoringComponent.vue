@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <ion-page>
-            Monitoreo de tareas e usuarios
-        </ion-page>
-    </div>
+    <ion-page>
+        Monitoreo de tareas e usuarios
+    </ion-page>
 </template>
 
 <script>

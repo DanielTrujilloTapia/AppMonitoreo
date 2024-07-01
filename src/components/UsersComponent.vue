@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <ion-page>
-            Usuarios
-        </ion-page>
-    </div>
+    <ion-page>
+        Usuarios
+    </ion-page>
 </template>
 
 <script>
