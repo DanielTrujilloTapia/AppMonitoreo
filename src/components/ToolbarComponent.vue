@@ -1,6 +1,6 @@
 <template>
     <ion-toolbar color="primary">
-        <ion-title class="title">Sitem</ion-title>
+        <ion-title class="title"> {{title}} </ion-title>
         <ion-buttons slot="end" class="custom-icon-menu">
             <ion-menu-button :auto-hide="false"></ion-menu-button>
         </ion-buttons>
@@ -12,18 +12,15 @@ import { IonToolbar, IonTitle, IonButtons, IonMenuButton} from '@ionic/vue'
 
 export default {
     name: 'ToolbarComponent',
+    props: {
+        title: String
+    },
     components: {
         IonToolbar,
         IonTitle,
         IonButtons,
         IonMenuButton,
     },
-    setup() {
-
-        return {
-            
-        }
-    }
 }
 </script>
 

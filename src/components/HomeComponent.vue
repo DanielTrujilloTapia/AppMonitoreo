@@ -1,7 +1,7 @@
 <template >
         <ion-page id="main-content">
             <ion-header class="header-toolbar-custom">
-                <toolbar-component/>
+                <toolbar-component :title="'Sitem'"/>
             </ion-header>
     
             <ion-content>
