@@ -6,93 +6,26 @@
         
         <ion-content>
             <ion-card>
-                <div>
-                    <p>ServiciosTask</p>
-                    <p>Este apartado nos permite asignar tareas a los empleados acerca de un servicio</p>
-                    <p>Por otro lado contamos con una gran variedad de servicios para brindar mantenimiento potimo <a href="/service">Servicios</a></p>
+                <div class="header-card-custom">
+                    <p>Servicios</p>
+
+                    <ion-buttons>
+                        <ion-button>
+                            <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
                 </div>
+                    
+                    <p>
+                        Como empresa SITEM brindamos servicios de mantenimiento de la mas alta calidad para que sus equipos den el 100% 
+                        de su rendimiento
+                    </p>
+
+                    <p>Por otro lado contamos con una gran variedad de servicios para brindar mantenimiento optimo <a>servicios</a></p>
             </ion-card>
 
-            <ion-card>
-                <div style="display: flex; justify-content: space-between">
-                    <p class="title-size">Tareas Asignadas</p>
-                    <p class="subtitle-size">Ver Todas</p>
-                </div>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-            </ion-card>
-            
-            <ion-card>
-                <div style="display: flex; justify-content: space-between">
-                    <p class="title-size">Pendientes</p>
-                    <p class="subtitle-size">Ver Todas</p>
-                </div>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-            </ion-card>
-
-            <ion-card>
-                <div style="display: flex; justify-content: space-between">
-                    <p class="title-size">No Completadas</p>
-                    <p class="subtitle-size">Ver Todas</p>
-                </div>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-                <ion-item>
-                    <p>Servicio 1</p>
-                    <p slot="end">05/07/2024</p>
-                </ion-item>
-            </ion-card>
+            <card-tareas-reutilizable-component :title="'Pendientes'" :Status="3"/>
+            <card-tareas-reutilizable-component :title="'No Completada'" :Status="2"/>
 
         </ion-content>
     </ion-page>
@@ -101,6 +34,8 @@
 <script>
 import { IonPage, IonHeader, IonContent, IonCard, IonItem } from '@ionic/vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
+import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
+import { addOutline, personCircle } from 'ionicons/icons'
 
 export default {
     name: 'ServiceTasksComponent',
@@ -110,22 +45,21 @@ export default {
         ToolbarComponent,
         IonContent,
         IonCard,
-        IonItem
+        CardTareasReutilizableComponent,
+    },
+    setup() {
+        return{
+            addOutline,
+            personCircle
+        }
     }
 }
 </script>
 
 <style scoped>
-.title-size{
-    font-size: 16px;
-    color: var(--ion-title-color);
-    font-weight: bold;
-    padding-left: 16px;
-}
-.subtitle-size{
-    font-size: 14px;
-    color: var(--ion-subtitle-color);
-    font-weight: bold;
-    padding-right: 20px;
+
+.header-card-custom {
+    display: flex;
+    justify-content: space-between;
 }
 </style>
