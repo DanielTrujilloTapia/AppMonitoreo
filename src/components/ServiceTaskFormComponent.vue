@@ -311,7 +311,7 @@ export default {
         const ionRouter = useIonRouter();
         
         const navigateToService = () => {
-            ionRouter.back('/service', 'forward', 'push');
+            ionRouter.push('/service');
         };
 
         return{
@@ -619,6 +619,7 @@ export default {
 
                 if (createdTaskService.ok) {
                     console.log('La tarea de servicio se creo CORRECTAMENTE');
+                    this.navigateToService();
                 }
 
                 } catch (error) {
