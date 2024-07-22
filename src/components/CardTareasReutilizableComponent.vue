@@ -1,5 +1,5 @@
 <template>
-    <ion-card>
+    <ion-card style="height: 301px;">
         <ion-card-header>
             <div class="custom-title">
                 <p>{{ title }}</p>
@@ -8,9 +8,10 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-item v-for="task in tasks.slice(0,10)" :key="task.id_tarea_servicio">
+            <ion-item v-for="task in tasks.slice(0,5)" :key="task.id_tarea_servicio">
                 <p>{{ task.nom_tarea_servicio }}</p>
-                <p slot="end">{{ formatFecha(task.fecha_entega_servicio) }}    </p>
+                <p>{{ task.nom_prioridad }}</p>
+                <p slot="end">{{ formatFecha(task.fecha_entega_servicio) }}</p>
             </ion-item>
         </ion-card-content>
     </ion-card>
@@ -36,6 +37,7 @@ export default {
             tasksUpdates: [],
             tasks: [],
             Users: [],
+            priorities: []
         };
     },
     methods: {
@@ -122,6 +124,21 @@ export default {
             } catch (error) {
               console.error("Error en la consulta de Tareas:", error);
             }
+
+            try {
+                const responsePriorities = await fetch('https://localhost:7296/api/Tareas_Prioridades');
+                this.priorities = await responsePriorities.json();
+            } catch (error) {
+              console.error("Error en la consulta de Tareas:", error);
+            }
+
+            // Map task priorities
+            this.tasks = this.tasks.map(task => {
+                const priority = this.priorities.find(priority => priority.id_prioridad === task.idtareasprioridad);
+                task.nom_prioridad = priority ? priority.nom_prioridad : 'Sin Prioridad';
+                return task;
+            });
+
         },
 
         formatFecha(fecha) {
