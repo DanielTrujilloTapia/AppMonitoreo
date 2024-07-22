@@ -69,14 +69,14 @@
                                     <ion-row class="custom-title-card">
                                         <p>Seleccione al Encargado:</p>
                                     </ion-row>
-                                    <ion-input  label="Buscar:" fill="solid" v-model="searchNameEncargado" @ionInput="filterUsersEncargado"></ion-input>
+                                    <ion-input label="Buscar:" fill="solid" v-model="searchNameEncargado" @ionInput="filterUsersEncargado"></ion-input>
                                     <ion-item lines="none" v-for="user in paginatedUsersEncargado" :key="user.id_usuario" @click="selectEncargado(user)">
                                         <p style="font-size: 13px;">{{ user.nom_usuario }}</p>
                                     </ion-item>
                                     <ion-row>
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="prevPage" :disabled="currentPage === 1">
+                                                <ion-button @click="prevPageEncargado" :disabled="currentPageEncargado === 1">
                                                     Anterior
                                                 </ion-button>
                                             </ion-buttons>
@@ -84,7 +84,7 @@
                                         
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="nextPage" :disabled="currentPage === totalPages">
+                                                <ion-button @click="nextPageEncargado" :disabled="currentPageEncargado === totalPagesEncargado">
                                                     Siguiente
                                                 </ion-button>
                                             </ion-buttons>
@@ -117,7 +117,7 @@
                                     <ion-row>
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="prevPage" :disabled="currentPage === 1">
+                                                <ion-button @click="prevPageAyudante" :disabled="currentPageAyudante === 1">
                                                     Anterior
                                                 </ion-button>
                                             </ion-buttons>
@@ -125,7 +125,7 @@
                                         
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="nextPage" :disabled="currentPage === totalPages">
+                                                <ion-button @click="nextPageAyudante" :disabled="currentPageAyudante === totalPagesAyudante">
                                                     Siguiente
                                                 </ion-button>
                                             </ion-buttons>
@@ -158,7 +158,7 @@
                                     <ion-row>
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="prevPage" :disabled="currentPage === 1">
+                                                <ion-button @click="prevPagePlanta" :disabled="currentPagePlanta === 1">
                                                     Anterior
                                                 </ion-button>
                                             </ion-buttons>
@@ -166,7 +166,7 @@
                                         
                                         <ion-col style="display: flex; justify-content: center;">
                                             <ion-buttons>
-                                                <ion-button @click="nextPage" :disabled="currentPage === totalPages">
+                                                <ion-button @click="nextPagePlanta" :disabled="currentPagePlanta === totalPagesPlants">
                                                     Siguiente
                                                 </ion-button>
                                             </ion-buttons>
@@ -180,7 +180,7 @@
 
                     <ion-row class="custom-ion-row">
                         <ion-col>
-                            <ion-select label="Prioridad:" label-placement="floating" fill="outline">
+                            <ion-select label="Prioridad:" label-placement="floating" fill="outline" v-model="id_prioridades">
                               <ion-select-option v-for="priority in priorities" :key="priority.id_prioridad" :value="priority.id_prioridad">{{ priority.nom_prioridad }}</ion-select-option>
                             </ion-select>
                         </ion-col>
@@ -203,11 +203,13 @@
 
                     <ion-row class="custom-ion-row">
                         <ion-col style="display: flex; justify-content: center;">
-                            <ion-button>Cancelar</ion-button>
+                            <ion-buttons>
+                                <ion-button color="primary" @click="navigateToService">Cancelar</ion-button>
+                            </ion-buttons>
                         </ion-col>
 
                         <ion-col style="display: flex; justify-content: center;"> 
-                            <ion-button>Crear Tarea</ion-button>
+                            <ion-button @click="CreatedTask()">Crear Tarea</ion-button>
                         </ion-col>
                     </ion-row>
 
@@ -226,6 +228,7 @@
 import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonInput, IonItem, IonButtons, IonButton, IonIcon, IonDatetime, IonPopover, IonSelect, IonSelectOption, } from '@ionic/vue';
 import { closeOutline, calendarClear, caretForwardOutline, caretBackOutline } from 'ionicons/icons'
 import ToolbarComponent from './ToolbarComponent.vue'
+import { useIonRouter } from '@ionic/vue';
 
 export default {
     name: 'ServiceTaskFormComponent',
@@ -262,6 +265,15 @@ export default {
             currentPage: 1,
             itemsPerPage: 5,
 
+            currentPageEncargado: 1,
+            itemsPerPageEncargado: 5,
+
+            currentPageAyudante: 1,
+            itemsPerPageAyudante: 5,
+
+            currentPagePlanta: 1,
+            itemsPerPagePlanta: 5,
+
             users: [],
             filteredUsersEncargado: [],
             filteredUsersAyudante: [],
@@ -269,32 +281,45 @@ export default {
             selectedService: [],
             showService: true,
             noshowService: false,
+            id_servicio: null,
 
             selectedEncargado: [],
             showEncargado: true,
             noshowEncargado: false,
+            id_encargado: null,
 
             selectedAyudante: [],
             showAyudante: true,
             noshowAyudante: false,
+            id_ayudante: null,
 
             plants: [],
             filteredPlants: [],
             selectedPlanta: [],
             showPlanta: true,
             noshowPlanta: false,
+            id_planta: null,
 
             selectedDate: null,
 
             priorities: [],
+            id_prioridades: null
         }
     },
     setup() {
+
+        const ionRouter = useIonRouter();
+        
+        const navigateToService = () => {
+            ionRouter.back('/service', 'forward', 'push');
+        };
+
         return{
             closeOutline,
             calendarClear,
             caretForwardOutline,
             caretBackOutline,
+            navigateToService
         }
     },
     computed: {
@@ -311,32 +336,32 @@ export default {
 
         /************************************************** ENCARGADO **************************************************/
         paginatedUsersEncargado() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            const end = start + this.itemsPerPage;
+            const start = (this.currentPageEncargado - 1) * this.itemsPerPageEncargado;
+            const end = start + this.itemsPerPageEncargado;
             return this.filteredUsersEncargado.slice(start, end);
         },
         totalPagesEncargado() {
-            return Math.ceil(this.filteredUsersEncargado.length / this.itemsPerPage);
+            return Math.ceil(this.filteredUsersEncargado.length / this.itemsPerPageEncargado);
         },
 
         /************************************************** AYUDANTE **************************************************/
         paginatedUsersAyudante() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            const end = start + this.itemsPerPage;
+            const start = (this.currentPageAyudante - 1) * this.itemsPerPageAyudante;
+            const end = start + this.itemsPerPageAyudante;
             return this.filteredUsersAyudante.slice(start, end);
         },
         totalPagesAyudante() {
-            return Math.ceil(this.filteredUsersAyudante.length / this.itemsPerPage);
+            return Math.ceil(this.filteredUsersAyudante.length / this.itemsPerPageAyudante);
         },
 
         /************************************************** AYUDANTE **************************************************/
         paginatedPlants() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            const end = start + this.itemsPerPage;
+            const start = (this.currentPagePlanta - 1) * this.itemsPerPagePlanta;
+            const end = start + this.itemsPerPagePlanta;
             return this.filteredPlants.slice(start, end);
         },
         totalPagesPlants() {
-            return Math.ceil(this.filteredPlants.length / this.itemsPerPage);
+            return Math.ceil(this.filteredPlants.length / this.itemsPerPagePlanta);
         }
     },
     methods: {
@@ -398,14 +423,19 @@ export default {
 
         selectService(servicio) {
             this.selectedService = servicio;
+            this.id_servicio = servicio.id_servicio;
             console.log(this.selectedService.id_servicio);
+            console.log(this.id_servicio);
             this.NoServiceShow();
         },
         ServiceShow(){
             this.showService = true;
             this.noshowService = false;
             this.selectedService = [];
+            this.id_servicio = null;
+
             console.log(this.selectedService);
+            console.log(this.id_servicio);
         },
         NoServiceShow(){
             this.showService = false;
@@ -419,23 +449,38 @@ export default {
             user.nom_usuario.toLowerCase().includes(this.searchNameEncargado.toLowerCase()) &&
             user.idusupuestousuario === 1 
             );
-            this.currentPage = 1; // Reset to first page on new search
+            this.currentPageEncargado = 1; // Reset to first page on new search
         },
 
         selectEncargado(usuario) {
             this.selectedEncargado = usuario;
+            this.id_encargado = usuario.id_usuario;
             console.log(this.selectedEncargado.id_usuario);
+            console.log(this.id_encargado);
             this.NoEncargadoShow();
         },
         EncargadoShow(){
             this.showEncargado = true;
             this.noshowEncargado = false;
             this.selectedEncargado = [];
+            this.id_encargado = null,
             console.log(this.selectedEncargado);
+            console.log(this.id_encargado);
         },
         NoEncargadoShow(){
             this.showEncargado = false;
             this.noshowEncargado = true;
+        },
+
+        prevPageEncargado() {
+            if (this.currentPageEncargado > 1) {
+                this.currentPageEncargado--;
+            }
+        },
+        nextPageEncargado() {
+            if (this.currentPageEncargado < this.totalPagesEncargado) {
+                this.currentPageEncargado++;
+            }
         },
 
 /********************************************************  AYUDANTE, FILTER AND PAGES  ****************************************************************************************************************************/
@@ -445,23 +490,38 @@ export default {
             user.nom_usuario.toLowerCase().includes(this.searchNameAyudante.toLowerCase()) &&
             user.idusupuestousuario === 2 
             );
-            this.currentPage = 1; // Reset to first page on new search
+            this.currentPageAyudante = 1; // Reset to first page on new search
         },
 
         selectAyudante(usuario) {
             this.selectedAyudante = usuario;
+            this.id_ayudante = usuario.id_usuario;
             console.log(this.selectedAyudante.id_usuario);
+            console.log(this.id_ayudante);
             this.NoAyudanteShow();
         },
         AyudanteShow(){
             this.showAyudante = true;
             this.noshowAyudante = false;
             this.selectedAyudante = [];
-            console.log(this.selectedAyudante)
+            this.id_ayudante = null;
+            console.log(this.selectedAyudante);
+            console.log(this.id_ayudante);
         },
         NoAyudanteShow(){
             this.showAyudante= false;
             this.noshowAyudante = true;
+        },
+
+        prevPageAyudante() {
+            if (this.currentPageAyudante > 1) {
+                this.currentPageAyudante--;
+            }
+        },
+        nextPageAyudante() {
+            if (this.currentPageAyudante < this.totalPagesAyudante) {
+                this.currentPageAyudante++;
+            }
         },
 
 /********************************************************  PLANTAS, FILTER AND PAGES  ****************************************************************************************************************************/
@@ -470,30 +530,104 @@ export default {
             this.filteredPlants = this.plants.filter(plant => 
                 plant.nom_planta.toLowerCase().includes(this.searchNamePlanta.toLowerCase()) 
             );
-            this.currentPage = 1; // Reset to first page on new search
+       
+            this.currentPagePlanta = 1; // Reset to first page on new search
         },
 
         selectPlanta(planta) {
             this.selectedPlanta = planta;
+            this.id_planta = planta.id_planta;
             console.log(this.selectedPlanta.id_planta);
+            console.log(this.id_planta);
             this.NoPlantaShow();
         },
         PlantaShow(){
             this.showPlanta = true;
             this.noshowPlanta = false;
             this.selectedPlanta = [];
-            console.log(this.selectedPlanta)
+            this.id_planta = null,
+
+            console.log(this.selectedPlanta);
+            console.log(this.id_planta);
         },
         NoPlantaShow(){
             this.showPlanta = false;
             this.noshowPlanta = true;
         },
 
+        prevPagePlanta() {
+            if (this.currentPagePlanta > 1) {
+                this.currentPagePlanta--;
+            }
+        },
+        nextPagePlanta() {
+            if (this.currentPagePlanta < this.totalPagesPlants) {
+                this.currentPagePlanta++;
+            }
+        },
+
+/**************************************FECHA Y HORA *************************************************************/
+
         formatFecha(fecha) {
             return fecha ? fecha.slice(0, 10) : '';
         },
         formatTiempo(tiempo) {
             return tiempo ? tiempo.slice(11, 19) : '';
+        },
+
+        async CreatedTask(){ 
+
+            const fechaActual = new Date();
+            const fechaFormateada = fechaActual.toISOString(); // Formato ISO 8601
+
+
+            if(this.nameTask !== null && this.id_servicio !== null && this.id_encargado !== null && this.id_ayudante !== null && this.id_planta !== null && this.selectedDate !== null && this.id_prioridades !== null){
+                console.log("ID NOMBRE TAREA: ", this.nameTask);
+                console.log("ID SERVICIO: ", this.id_servicio);
+                console.log("ID ENCARGADO: ", this.id_encargado);
+                console.log("ID AYUDANTE: ", this.id_ayudante);
+
+                console.log('ID ADMIN: ', 1);
+
+                console.log("ID PLANTA: ", this.id_planta);
+                console.log("FECHA PUBLICACION: ", fechaFormateada);
+                console.log("FECHA ENTREGA: ", this.selectedDate);
+                console.log('ID PRIORIDAD: ', this.id_prioridades);
+                console.log('ID ESTATUS: ', 3);
+
+                try {
+                    const createdTaskService = await fetch('https://localhost:7296/api/Tareas_Servicios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nom_tarea_servicio: this.nameTask,
+                        idcatservicios: this.id_servicio,
+                        idusuusuario_encargado: this.id_encargado,
+                        idusuusuario_ayudante: this.id_ayudante,
+
+                        idusuusuario_admin: 1,
+
+                        idcatplantas: this.id_planta,
+                        fecha_publicacion_servicio: fechaFormateada,
+                        fecha_entega_servicio: this.selectedDate,
+                        idtareaestatus_servicio: 3,
+                        idtareasprioridad: this.id_prioridades
+                    })
+                });
+
+                if (createdTaskService.ok) {
+                    console.log('La tarea de servicio se creo CORRECTAMENTE');
+                }
+
+                } catch (error) {
+                    console.log('Algo fallo: ', error);
+                }
+                
+            } else{
+                alert("Rellena todos los campos del formulario");
+            }
         }
 
     },
