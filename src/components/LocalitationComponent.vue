@@ -71,12 +71,12 @@ export default {
 
         const position = await obtenerPosicion();
         this.ubi = position;
-        console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
-        this.obtenerUbicacionDetallada(position.coords.latitude, position.coords.longitude);
         this.lat = this.ubi.coords.latitude;
         this.lon = this.ubi.coords.longitude;
+        console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
+        this.obtenerUbicacionDetallada(this.ubi.coords.latitude, this.ubi.coords.longitude);
       } catch (error) {
-        console.log('Error al obtener la ubicación', error);
+        alert('Error al obtener la ubicación', error);
       }
     },
     async obtenerUbicacionDetallada(latitud, longitud) {
@@ -87,7 +87,6 @@ export default {
     console.log(`Ubicacion de tallada: ${this.ubicacionDetallada}`);
   } catch (error) {
    alert('Error al obtener la ubicación detallada', error);
-    ubicacionDetallada.value = 'Ubicación desconocida';
   }
     },
 
