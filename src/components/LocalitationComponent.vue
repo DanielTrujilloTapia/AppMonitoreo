@@ -1,0 +1,115 @@
+<template>
+    <ion-page id="main-content">
+        <ion-header class="header-toolbar-custom">
+            <toolbar-component :title="'Service'"/>
+        </ion-header>
+        
+        <ion-content>
+
+            <ion-card>
+                <ion-card-title>Localizacion</ion-card-title>
+                
+                <ion-card-content>
+                   <p> La latitud es: {{ lat }} L a longitud es: {{ lon }}</p>
+                   <p>La localización es: {{ ubicacionDetallada }}</p>
+                   <p>Estas son las coordenadas al ingresar la ubicacion detallada: {{nuevalat}} y{{ nuevalon }}</p>
+                    <ion-button @click="obtenerUbicacion()">Obtener</ion-button>
+                    <ion-button @click="obtenerCoordenadas(ubicacionDetallada)">Obtener Coordenadas</ion-button>
+                </ion-card-content>
+            </ion-card>
+
+        </ion-content>
+
+    </ion-page>
+</template>
+
+<script>
+    import { IonPage, IonHeader, IonContent, IonCard, IonItem, IonCardTitle, IonCardContent, IonButton } from '@ionic/vue'
+import ToolbarComponent from '../components/ToolbarComponent.vue'
+import { addOutline, personCircle } from 'ionicons/icons'
+
+export default {
+    name: 'LocalitationComponent',
+    components: {
+        IonPage,
+        IonHeader,
+        ToolbarComponent,
+        IonContent,
+        IonCard,
+        IonItem,
+        IonCardTitle,
+        IonCardContent,
+        IonButton
+    },
+    setup() {
+        return{
+           
+        }
+    },
+    data() {
+        return {
+            ubi:null,
+            ubicacionDetallada: null,
+            lat:null,
+            lon: null,
+            nuevalat:null,
+            nuevalon:null,
+        }
+    },
+    methods: {
+        metodoprueba(){
+            this.ubi='hola';
+        },
+
+        async obtenerUbicacion() {
+      try {
+        const obtenerPosicion = () => {
+          return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          });
+        };
+
+        const position = await obtenerPosicion();
+        this.ubi = position;
+        console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
+        this.obtenerUbicacionDetallada(position.coords.latitude, position.coords.longitude);
+        this.lat = this.ubi.coords.latitude;
+        this.lon = this.ubi.coords.longitude;
+      } catch (error) {
+        console.log('Error al obtener la ubicación', error);
+      }
+    },
+    async obtenerUbicacionDetallada(latitud, longitud) {
+      try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitud}&lon=${longitud}`);
+    const data = await response.json();
+    this.ubicacionDetallada = data.display_name;
+    console.log(`Ubicacion de tallada: ${this.ubicacionDetallada}`);
+  } catch (error) {
+   alert('Error al obtener la ubicación detallada', error);
+    ubicacionDetallada.value = 'Ubicación desconocida';
+  }
+    },
+
+    async obtenerCoordenadas(direccion) {
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(direccion)}&format=json&limit=1`);
+        const data = await response.json();
+        if (data && data.length > 0) {
+          this.coordenadas = {
+            lat: data[0].lat,
+            lon: data[0].lon
+          };
+          console.log(`Latitud: ${this.coordenadas.lat}, Longitud: ${this.coordenadas.lon}`);
+          this.nuevalat=this.coordenadas.lat;
+          this.nuevalon=this.coordenadas.lon;
+        } else {
+          alert('No se encontraron coordenadas para la dirección proporcionada.');
+        }
+      } catch (error) {
+        console.log('Error al obtener las coordenadas', error);
+      }
+    }
+  }
+    };
+    </script>

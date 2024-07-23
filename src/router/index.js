@@ -7,6 +7,7 @@ import MechanicalFailuresFormPage from '../views/MechanicalFailuresFormPage.vue'
 import AutomatedTasksPage from '../views/AutomatedTasksPage.vue'
 import MonitoringPage from '../views/MonitoringPage.vue'
 import UsersPage from '../views/UsersPage.vue'
+import LocPage from '../views/LocalitationPage.vue'
 
 const routes = [
   {
@@ -52,6 +53,11 @@ const routes = [
     path: '/users',
     name: 'Users',
     component: UsersPage
+  },
+  {
+    path: '/loc',
+    name: 'Loc',
+    component: LocPage
   },
 ]
 
