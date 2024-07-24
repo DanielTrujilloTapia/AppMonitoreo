@@ -3,7 +3,7 @@
         <ion-card-header>
             <div class="custom-title">
                 <p class="title-size">{{ title }}</p>
-                <p style="color: var(--ion-color-primary)">ver mas</p>
+                <p class="button-custom">ver mas</p>
             </div>
         </ion-card-header>
 
@@ -177,6 +177,14 @@ p{
 .text-size{
     font-size: 13px;
     text-align: justify;
+}
+
+.button-custom {
+    color: var(--ion-color-primary);
+}
+
+.button-custom:active {
+    color: rgb(9, 105, 46);
 }
 
 </style>
