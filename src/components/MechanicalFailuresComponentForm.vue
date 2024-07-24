@@ -10,7 +10,7 @@
                     
                     <ion-row class="custom-ion-row">
                         <ion-col>
-                            <ion-input v-model="nameTask" label="Nombre de la Tarea" label-placement="floating" fill="outline" placeholder="Servicio de mantenimiento 1"></ion-input>
+                            <ion-input v-model="namefailTask" label="Nombre de la Tarea" label-placement="floating" fill="outline" placeholder="Servicio de mantenimiento 1"></ion-input>
                         </ion-col>
                     </ion-row>
 
@@ -163,7 +163,7 @@
 
                     <ion-row class="custom-ion-row">
                         <ion-col>
-                            <ion-textarea style="height: 200px;" v-model="descfailtask" label="Descripción de la falla" label-placement="floating" fill="outline" placeholder="Descripción"></ion-textarea>
+                            <ion-textarea style="height: 200px;" v-model="descfailtask" :auto-grow="true" label="Descripción de la falla" label-placement="floating" fill="outline" placeholder="Descripción"></ion-textarea>
                         </ion-col>
                     </ion-row>
 
@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonInput, IonItem, IonButtons, IonButton, IonIcon, IonDatetime, IonPopover, IonSelect, IonSelectOption, } from '@ionic/vue';
+import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonInput, IonItem, IonButtons, IonButton, IonIcon, IonDatetime, IonPopover, IonSelect, IonSelectOption,IonTextarea } from '@ionic/vue';
 import { closeOutline, calendarClear, caretForwardOutline, caretBackOutline } from 'ionicons/icons'
 import ToolbarComponent from './ToolbarComponent.vue'
 import { useIonRouter } from '@ionic/vue';
@@ -216,6 +216,7 @@ export default {
         IonPopover,
         IonSelect,
         IonSelectOption,
+        IonTextarea
     },
     data() {
         return {
