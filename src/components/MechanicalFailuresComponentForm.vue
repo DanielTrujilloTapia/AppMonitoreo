@@ -522,7 +522,7 @@ export default {
 
                         idcatplanta: this.id_planta,
                         fecha_publicacion_falla: fechaFormateada,
-                        fecha_entega_falla: this.selectedDate,
+                        fecha_entrega_falla: this.selectedDate,
                         idtareaestatus_falla: 3,
                         idtareaprioridad: this.id_prioridades
                     })
