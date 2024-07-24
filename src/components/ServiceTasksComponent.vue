@@ -3,72 +3,96 @@
         <ion-header class="header-toolbar-custom">
             <toolbar-component :title="'Service'"/>
         </ion-header>
-        
+
         <ion-content>
-            <ion-card>
-                <div class="header-card-custom">
-                    <p>Servicios</p>
-
-                    <ion-buttons>
-                        <ion-button>
-                            <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
-                        </ion-button>
-                    </ion-buttons>
-                </div>
-                    
-                    <p>
-                        Como empresa SITEM brindamos servicios de mantenimiento de la mas alta calidad para que sus equipos den el 100% 
-                        de su rendimiento
-                    </p>
-
-                    <p>Por otro lado contamos con una gran variedad de servicios para brindar mantenimiento optimo <a>servicios</a></p>
-            </ion-card>
-
-            <ion-card style="margin: 0px 5px 0px 5px;">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col>
-                            <ion-row class="custom-title-card">
-                                <p>Todos los Servicios que brinda SITEM</p>
-                            </ion-row>
-                            <ion-input  label="Buscar:" fill="solid" v-model="searchName" @ionInput="filterServices"></ion-input>
-                            <ion-item lines="none" v-for="service in paginatedServices" :key="service.id_servicio">
-                                <p style="font-size: 13px;">{{ service.nom_servicio }}</p>
-                            </ion-item>
-                            <ion-row>
-                                <ion-col style="display: flex; justify-content: center;">
-                                    <ion-buttons>
-                                        <ion-button @click="prevPage" :disabled="currentPage === 1">
-                                            Anterior
-                                        </ion-button>
-                                    </ion-buttons>
-                                </ion-col>
+            
+            <ion-card style="margin: 0px 0px 2px 0px;">
+                <ion-card>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col>
+                                <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
+                                    <p class="title-size">Servicios SITEM</p>
+                                    <p class="subtitle-size" style="color: var(--ion-color-primary);">agregar servicio</p>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+    
+                        <ion-row>
+                            <ion-col>
+                                <ion-input  label="Buscar:" fill="solid" v-model="searchName" @ionInput="filterServices"></ion-input>
+                                <ion-item @click="openModal(service)" lines="none" v-for="service in paginatedServices" :key="service.id_servicio" >
+                                    <p class="text-size">{{ service.nom_servicio }}</p>
+                                </ion-item>
+    
+                                <ion-modal :is-open="showModal" @ionModalDidDismiss="dismissModal" :initial-breakpoint="1" :breakpoints="[0, 1]" >
+                                    <ion-content>
+                                        <ion-card style="margin: 0px;">
+                                            <ion-card-header>
+                                                <p style="text-align: center; font-size: 15px; color: var(--ion-title-color)">{{selectedService.nom_servicio}}</p>
+                                            </ion-card-header>
+                                            <ion-card-content>
+                                                <p  style="text-align: justify; font-size: 14px; color: var(--ion-subtitle-color)">{{ selectedService.descripcion_servicio }}</p>
+                                            </ion-card-content>
+                                        </ion-card>
+                                    </ion-content>
+                                </ion-modal>
+    
                                 
-                                <ion-col style="display: flex; justify-content: center;">
-                                    <ion-buttons>
-                                        <ion-button @click="nextPage" :disabled="currentPage === totalPages">
-                                            Siguiente
-                                        </ion-button>
-                                    </ion-buttons>
-                                </ion-col>
-                            </ion-row>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
+                                <ion-row>
+                                    <ion-col style="display: flex; justify-content: center;">
+                                        <ion-buttons>
+                                            <ion-button @click="prevPage" :disabled="currentPage === 1">
+                                                Anterior
+                                            </ion-button>
+                                        </ion-buttons>
+                                    </ion-col>
+                                    
+                                    <ion-col style="display: flex; justify-content: center;">
+                                        <ion-buttons>
+                                            <ion-button @click="nextPage" :disabled="currentPage === totalPages">
+                                                Siguiente
+                                            </ion-button>
+                                        </ion-buttons>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card>
             </ion-card>
 
-            <card-tareas-reutilizable-component :title="'Pendientes'" :Status="3"/>
-            <card-tareas-reutilizable-component :title="'No Completada'" :Status="2"/>
+            <ion-card style="margin: 0px;">
+
+                <ion-card-header>
+                    <div style="display: flex; justify-content: space-between;">
+                        <p class="title-size">Apartado Tareas de Servicios</p>
+                        <p style="color:var(--ion-color-primary)">nueva tarea</p>
+                    </div>
+
+                    <div>
+                        <p class="subtitle-size">Recuerda que al crear una tarea puede ser Modificada o se puede Eliminar en caso de algun error</p>
+                        <p style="color:var(--ion-color-primary)">Ver todas mis tareas?</p>
+                    </div>
+                </ion-card-header>
+
+                <ion-card-content style="margin: 0px; padding: 0px;">
+                    <card-tareas-reutilizable-component :title="'Pendientes'" :Status="3"/>
+                    <card-tareas-reutilizable-component :title="'No Completada'" :Status="2"/>
+                </ion-card-content>
+            </ion-card>
 
         </ion-content>
+
     </ion-page>
 </template>
 
 <script>
-import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonIcon, IonButton, IonItem, IonInput} from '@ionic/vue'
+import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonIcon, IonButton, IonItem, IonInput, IonModal, IonCardHeader, IonCardContent, IonCardTitle, } from '@ionic/vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
 import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
-import { addOutline, personCircle } from 'ionicons/icons'
+import { addOutline, personCircle, addSharp } from 'ionicons/icons'
+import { useIonRouter } from '@ionic/vue';
 
 export default {
     name: 'ServiceTasksComponent',
@@ -86,7 +110,11 @@ export default {
         IonIcon,
         IonButton,
         IonItem,
-        IonInput
+        IonInput,
+        IonModal,
+        IonCardHeader,
+        IonCardContent,
+        IonCardTitle,
     },
     data() {
         return{
@@ -94,14 +122,26 @@ export default {
             filteredServices: [],
             searchName: '',
 
+            showModal: false,
+            selectedService: null, // Inicialmente no hay ningún servicio seleccionado
+
             currentPage: 1,
             itemsPerPage: 5,
         }
     },
     setup() {
+        
+        const ionRouter = useIonRouter();
+        
+        const navigateToServiceform = () => {
+            ionRouter.push('/serviceForm');
+        }
+
         return{
+            navigateToServiceform,
             addOutline,
-            personCircle
+            personCircle,
+            addSharp,
         }
     },
     computed: {
@@ -144,7 +184,16 @@ export default {
             if (this.currentPage < this.totalPages) {
                 this.currentPage++;
             }
-        },  
+        },
+        openModal(service) {
+          this.selectedService = service;
+          this.showModal = true;
+        },
+
+        dismissModal() {
+          this.showModal = false;
+        },
+
     },
     created() {
         this.GetServices();
@@ -153,6 +202,24 @@ export default {
 </script>
 
 <style scoped>
+
+.title-size{
+    font-size: 16px;
+    color: var(--ion-title-color);
+    font-weight: bold;
+    text-align: justify;
+}
+
+.subtitle-size{
+    font-size: 14px;
+    color: var(--ion-subtitle-color);
+    text-align: justify;
+}
+
+.text-size{
+    font-size: 13px;
+    text-align: justify;
+}
 
 .header-card-custom {
     display: flex;
