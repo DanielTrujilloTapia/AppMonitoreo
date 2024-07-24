@@ -13,7 +13,7 @@
                             <ion-col>
                                 <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
                                     <p class="title-size">Servicios SITEM</p>
-                                    <p class="subtitle-size" style="color: var(--ion-color-primary);">agregar servicio</p>
+                                    <p class="button-custom">agregar servicio</p>
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -21,7 +21,7 @@
                         <ion-row>
                             <ion-col>
                                 <ion-input  label="Buscar:" fill="solid" v-model="searchName" @ionInput="filterServices"></ion-input>
-                                <ion-item @click="openModal(service)" lines="none" v-for="service in paginatedServices" :key="service.id_servicio" >
+                                <ion-item class="item-click-custom" @click="openModal(service)" lines="none" v-for="service in paginatedServices" :key="service.id_servicio" >
                                     <p class="text-size">{{ service.nom_servicio }}</p>
                                 </ion-item>
     
@@ -67,12 +67,12 @@
                 <ion-card-header>
                     <div style="display: flex; justify-content: space-between;">
                         <p class="title-size">Apartado Tareas de Servicios</p>
-                        <p style="color:var(--ion-color-primary)">nueva tarea</p>
+                        <p class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
                     </div>
 
                     <div>
                         <p class="subtitle-size">Recuerda que al crear una tarea puede ser Modificada o se puede Eliminar en caso de algun error</p>
-                        <p style="color:var(--ion-color-primary)">Ver todas mis tareas?</p>
+                        <p class="button-custom">Ver todas mis tareas?</p>
                     </div>
                 </ion-card-header>
 
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonIcon, IonButton, IonItem, IonInput, IonModal, IonCardHeader, IonCardContent, IonCardTitle, } from '@ionic/vue'
+import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonItem, IonInput, IonModal, IonCardHeader, IonCardContent, } from '@ionic/vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
 import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
@@ -107,14 +107,12 @@ export default {
         IonRow,
         IonCol,
         IonButtons,
-        IonIcon,
         IonButton,
         IonItem,
         IonInput,
         IonModal,
         IonCardHeader,
         IonCardContent,
-        IonCardTitle,
     },
     data() {
         return{
@@ -225,4 +223,17 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+
+.button-custom {
+    color: var(--ion-color-primary);
+}
+
+.button-custom:active {
+    color: rgb(9, 105, 46);
+}
+
+.item-click-custom:active {
+  --color: var(--ion-color-primary); /* Color gris semitransparente */
+}
+
 </style>

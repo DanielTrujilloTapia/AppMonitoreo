@@ -8,7 +8,7 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-item v-for="task in tasks.slice(0,5)" :key="task.id_tarea_servicio">
+            <ion-item class="item-click-custom" v-for="task in tasks.slice(0,5)" :key="task.id_tarea_servicio">
                 <p class="text-size">{{ task.nom_tarea_servicio }}</p>
                 <p class="text-size" slot="end">{{ formatFecha(task.fecha_entega_servicio) }}</p>
             </ion-item>
@@ -185,6 +185,10 @@ p{
 
 .button-custom:active {
     color: rgb(9, 105, 46);
+}
+
+.item-click-custom:active {
+  --color: var(--ion-color-primary); /* Color gris semitransparente */
 }
 
 </style>
