@@ -507,7 +507,7 @@ export default {
                 console.log('ID ESTATUS: ', 3);
 
                 try {
-                    const createdTaskFailures = await fetch('https://localhost:7296/api/Monitoreo_Tareas_Fallas', {
+                    const createdTaskFailures = await fetch('https://localhost:7296/api/Tareas_Fallas', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
