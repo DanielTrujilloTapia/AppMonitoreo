@@ -13,7 +13,7 @@
                             <ion-col>
                                 <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
                                     <p class="title-size">Servicios SITEM</p>
-                                    <p class="button-custom">agregar servicio</p>
+                                    <p class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -135,8 +135,13 @@ export default {
             ionRouter.push('/serviceForm');
         }
 
+        const navigateToCreateServiceform = () => {
+            ionRouter.push('/createService');
+        }
+
         return{
             navigateToServiceform,
+            navigateToCreateServiceform,
             addOutline,
             personCircle,
             addSharp,

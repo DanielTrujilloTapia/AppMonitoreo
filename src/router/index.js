@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomePage from '../views/HomePage.vue'
 import ServiceTasksPage from '../views/ServiceTasksPage.vue'
 import ServiceTaskFormPage from '../views/ServiceTaskFormPage.vue'
+import CreateServiceFormPage from '../views/CreateServiceFormPage.vue'
 import MechanicalFailuresPage from '../views/MechanicalFailuresPage.vue'
 import MechanicalFailuresFormPage from '../views/MechanicalFailuresFormPage.vue'
 import ViewTasksPage from '../views/ViewTasksPage.vue'
@@ -29,6 +30,11 @@ const routes = [
     path: '/serviceForm',
     name: 'ServiceForm',
     component: ServiceTaskFormPage
+  },
+  {
+    path: '/createService',
+    name: 'CreateService',
+    component: CreateServiceFormPage
   },
   {
     path: '/failures',
