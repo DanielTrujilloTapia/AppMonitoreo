@@ -10,7 +10,7 @@
                     
                     <ion-row class="custom-ion-row">
                         <ion-col>
-                            <ion-input v-model="namefailTask" label="Nombre de la Tarea" label-placement="floating" fill="outline" placeholder="Servicio de mantenimiento 1"></ion-input>
+                            <ion-input v-model="namefailTask" label="Nombre de la Falla" label-placement="floating" fill="outline" placeholder="Servicio de mantenimiento 1"></ion-input>
                         </ion-col>
                     </ion-row>
 
