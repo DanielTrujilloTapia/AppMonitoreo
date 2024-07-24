@@ -204,7 +204,7 @@ export default {
 <style scoped>
 
 .title-size{
-    font-size: 16px;
+    font-size: 15px;
     color: var(--ion-title-color);
     font-weight: bold;
     text-align: justify;

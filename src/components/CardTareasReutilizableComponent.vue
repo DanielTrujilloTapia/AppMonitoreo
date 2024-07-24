@@ -2,16 +2,15 @@
     <ion-card style="height: 301px;">
         <ion-card-header>
             <div class="custom-title">
-                <p>{{ title }}</p>
-                <p>Ver mas</p>
+                <p class="title-size">{{ title }}</p>
+                <p style="color: var(--ion-color-primary)">ver mas</p>
             </div>
         </ion-card-header>
 
         <ion-card-content>
             <ion-item v-for="task in tasks.slice(0,5)" :key="task.id_tarea_servicio">
-                <p>{{ task.nom_tarea_servicio }}</p>
-                <p>{{ task.nom_prioridad }}</p>
-                <p slot="end">{{ formatFecha(task.fecha_entega_servicio) }}</p>
+                <p class="text-size">{{ task.nom_tarea_servicio }}</p>
+                <p class="text-size" slot="end">{{ formatFecha(task.fecha_entega_servicio) }}</p>
             </ion-item>
         </ion-card-content>
     </ion-card>
@@ -160,6 +159,24 @@ p{
 .custom-title{
     display: flex;
     justify-content: space-between; 
+}
+
+.title-size{
+    font-size: 15px;
+    color: var(--ion-title-color);
+    font-weight: bold;
+    text-align: justify;
+}
+
+.subtitle-size{
+    font-size: 14px;
+    color: var(--ion-subtitle-color);
+    text-align: justify;
+}
+
+.text-size{
+    font-size: 13px;
+    text-align: justify;
 }
 
 </style>
