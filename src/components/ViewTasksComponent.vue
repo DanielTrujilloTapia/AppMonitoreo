@@ -3,29 +3,46 @@
         <ion-content>
             
             <ion-card style="margin: 0px;">
-                <ion-card style="height: 600px;">
+                <ion-card>
                     <ion-card-header>
-                        asdasdasdasd
+                        <ion-row >
+                            <ion-col size="12" style="display: flex; justify-content: space-between;">
+                                <p style="margin: 0px;" class="title-size">Tus tareas Pendientes</p>
+                                <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
+                            </ion-col>
+                        </ion-row>
                     </ion-card-header>
-                    <ion-item v-for="pendiente in tasksPendiente" :key="pendiente.id_tarea_servicio">
-                        <ion-grid>
-                            <ion-row>
-                                <ion-col style="margin: 0px;">
-                                    <p class="subtitle-size" >{{ pendiente.userEncargado ? pendiente.userEncargado.nom_usuario : 'n/a' }}</p>
-                                </ion-col>
-                                <ion-col style="display: flex; justify-content: end;">
-                                    <p class="subtitle-size">{{ formatFecha(pendiente.fecha_entega_servicio)}}</p>    
-                                </ion-col>
-                            </ion-row>
+                    
+                    <ion-card-content style="margin: 0px; padding: 0px; height: 367.5px;">
+                        <ion-item v-for="pendiente in paginatedTasksPendiente" :key="pendiente.id_tarea_servicio">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col style="margin: 0px;">
+                                        <p class="subtitle-size" >{{ pendiente.userEncargado ? pendiente.userEncargado.nom_usuario : 'n/a' }}</p>
+                                    </ion-col>
+                                    <ion-col style="display: flex; justify-content: end;">
+                                        <p class="subtitle-size">{{ formatFecha(pendiente.fecha_entega_servicio)}}</p>    
+                                    </ion-col>
+                                </ion-row>
+    
+                                <ion-row>
+                                    <ion-col size="10">
+                                        <p style="margin: 0px;" class="text-size">{{ pendiente.nom_tarea_servicio }}</p>
+                                    </ion-col>
+    
+                                    <ion-col size="2" style="display: flex; justify-content: end;">
+                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            
+                        </ion-item>
+                    </ion-card-content>
 
-                            <ion-row>
-                                <ion-col>
-                                    <p style="margin: 0px;" class="text-size">{{ pendiente.nom_tarea_servicio }}</p>
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                        
-                    </ion-item>
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <ion-button fill="clear" @click="prevPagePendiente" :disabled="currentPagePendiente === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPagePendiente" :disabled="currentPagePendiente >= totalPagesPendiente">Siguiente</ion-button>
+                    </div>
                 </ion-card>
 
                 <ion-card style="height: 600px;">
@@ -46,7 +63,8 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonCard, IonItem} from '@ionic/vue'
+import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonButton, IonItem, IonGrid, IonRow, IonCol} from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue';
 
 export default {
     name:'ViewTasksComponent',
@@ -54,10 +72,13 @@ export default {
         IonPage,
         IonContent,
         IonCard,
+        IonCardContent,
+        IonCardHeader,
+        IonButton,
         IonItem,
-    },
-    props: {
-        estatus_id: String,
+        IonGrid,
+        IonRow,
+        IonCol
     },
     data(){
         return{
@@ -71,6 +92,29 @@ export default {
             users: [],
             priorities: [],
             status: [],
+
+            currentPagePendiente: 1,
+            pageSizePendiente: 5,
+        }
+    },
+    setup() {
+        const ionRouter = useIonRouter();
+        
+        const navigateBack = () => {
+            ionRouter.back();
+        };
+        return{
+            navigateBack
+        }
+    },
+    computed: {
+        totalPagesPendiente() {
+            return Math.ceil(this.tasksPendiente.length / this.pageSizePendiente);
+        },
+        paginatedTasksPendiente() {
+            const start = (this.currentPagePendiente - 1) * this.pageSizePendiente;
+            const end = start + this.pageSizePendiente;
+            return this.tasksPendiente.slice(start, end);
         }
     },
     methods: {
@@ -287,6 +331,21 @@ export default {
         formatTiempo(tiempo) {
             return tiempo ? tiempo.slice(11, 16) : '';
         },
+
+        nextPagePendiente() {
+            if (this.currentPagePendiente < this.totalPages) {
+                this.currentPagePendiente++;
+            }
+        },
+        prevPagePendiente() {
+            if (this.currentPagePendiente > 1) {
+                this.currentPagePendiente--;
+            }
+        },
+
+        get_id_task(id_task){
+
+        }
     },
     created(){
         this.UpdateStateTask();
