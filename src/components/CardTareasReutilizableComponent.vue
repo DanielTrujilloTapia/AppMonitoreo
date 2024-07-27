@@ -3,7 +3,7 @@
         <ion-card-header>
             <div class="custom-title">
                 <p class="title-size">{{ title }}</p>
-                <p class="button-custom">ver mas</p>
+                <p class="button-custom" @click.prevent="navigateToViewTasks">ver mas</p>
             </div>
         </ion-card-header>
 
@@ -18,6 +18,7 @@
 
 <script>
 import { IonCard, IonCardHeader, IonCardContent, IonItem } from '@ionic/vue';
+import { useIonRouter } from '@ionic/vue';
 
 export default {
     name: 'CardTareasReutiizableComponent',
@@ -38,6 +39,17 @@ export default {
             Users: [],
             priorities: []
         };
+    },
+    setup() {
+        const ionRouter = useIonRouter();
+
+        const navigateToViewTasks = () => {
+            ionRouter.push('/viewTasks');
+        }
+        
+        return {
+            navigateToViewTasks
+        }
     },
     methods: {
 

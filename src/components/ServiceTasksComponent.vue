@@ -72,7 +72,7 @@
 
                     <div>
                         <p class="subtitle-size">Recuerda que al crear una tarea puede ser Modificada o se puede Eliminar en caso de algun error</p>
-                        <p class="button-custom">Ver todas mis tareas?</p>
+                        <p class="button-custom" @click.prevent="navigateToViewTasks">ver todas mis tareas?</p>
                     </div>
                 </ion-card-header>
 
@@ -139,9 +139,14 @@ export default {
             ionRouter.push('/createService');
         }
 
+        const navigateToViewTasks = () => {
+            ionRouter.push('/viewTasks');
+        }
+
         return{
             navigateToServiceform,
             navigateToCreateServiceform,
+            navigateToViewTasks,
             addOutline,
             personCircle,
             addSharp,
