@@ -6,6 +6,7 @@ import CreateServiceFormPage from '../views/CreateServiceFormPage.vue'
 import MechanicalFailuresPage from '../views/MechanicalFailuresPage.vue'
 import MechanicalFailuresFormPage from '../views/MechanicalFailuresFormPage.vue'
 import ViewTasksPage from '../views/ViewTasksPage.vue'
+import ViewTaskDetailsPage from '../views/ViewTaskDetailsPage.vue'
 import AutomatedTasksPage from '../views/AutomatedTasksPage.vue'
 import MonitoringPage from '../views/MonitoringPage.vue'
 import UsersPage from '../views/UsersPage.vue'
@@ -50,6 +51,11 @@ const routes = [
     path: '/viewTasks',
     name: 'ViewTasks',
     component: ViewTasksPage
+  },
+  {
+    path: '/viewTasksDetails',
+    name: 'ViewTaskDetails',
+    component: ViewTaskDetailsPage
   },
   {
     path: '/automated',
