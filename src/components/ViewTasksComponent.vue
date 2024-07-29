@@ -1,13 +1,13 @@
 <template>
     <ion-page>
         <ion-content>
-            
+
             <ion-card style="margin: 0px;">
                 <ion-card>
                     <ion-card-header>
                         <ion-row >
                             <ion-col size="12" style="display: flex; justify-content: space-between;">
-                                <p style="margin: 0px;" class="title-size">Tus tareas Pendientes</p>
+                                <p style="margin: 0px;" class="title-size">Tareas Pendientes</p>
                                 <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
                             </ion-col>
                         </ion-row>
@@ -31,7 +31,7 @@
                                     </ion-col>
     
                                     <ion-col size="2" style="display: flex; justify-content: end;">
-                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(pendiente)">revisar</p>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -45,17 +45,133 @@
                     </div>
                 </ion-card>
 
-                <ion-card style="height: 600px;">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-row >
+                            <ion-col size="12" style="display: flex; justify-content: space-between;">
+                                <p style="margin: 0px;" class="title-size">Tareas en Proceso</p>
+                                <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-header>
                     
+                    <ion-card-content style="margin: 0px; padding: 0px; height: 367.5px;">
+                        <ion-item v-for="proceso in paginatedTasksProceso" :key="proceso.id_tarea_servicio">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col style="margin: 0px;">
+                                        <p class="subtitle-size" >{{ proceso.userEncargado ? proceso.userEncargado.nom_usuario : 'n/a' }}</p>
+                                    </ion-col>
+                                    <ion-col style="display: flex; justify-content: end;">
+                                        <p class="subtitle-size">{{ formatFecha(proceso.fecha_entega_servicio)}}</p>    
+                                    </ion-col>
+                                </ion-row>
+    
+                                <ion-row>
+                                    <ion-col size="10">
+                                        <p style="margin: 0px;" class="text-size">{{ proceso.nom_tarea_servicio }}</p>
+                                    </ion-col>
+    
+                                    <ion-col size="2" style="display: flex; justify-content: end;">
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(proceso)">revisar</p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            
+                        </ion-item>
+                    </ion-card-content>
+
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <ion-button fill="clear" @click="prevPageProceso" :disabled="currentPageProceso === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPageProceso" :disabled="currentPageProceso >= totalPagesProceso">Siguiente</ion-button>
+                    </div>
+                </ion-card>
+                
+                <ion-card>
+                    <ion-card-header>
+                        <ion-row >
+                            <ion-col size="12" style="display: flex; justify-content: space-between;">
+                                <p style="margin: 0px;" class="title-size">Tareas no Completadas</p>
+                                <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-header>
+                    
+                    <ion-card-content style="margin: 0px; padding: 0px; height: 367.5px;">
+                        <ion-item v-for="no_completa in paginatedTasksNo_Completa" :key="no_completa.id_tarea_servicio">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col style="margin: 0px;">
+                                        <p class="subtitle-size" >{{ no_completa.userEncargado ? no_completa.userEncargado.nom_usuario : 'n/a' }}</p>
+                                    </ion-col>
+                                    <ion-col style="display: flex; justify-content: end;">
+                                        <p class="subtitle-size">{{ formatFecha(no_completa.fecha_entega_servicio)}}</p>    
+                                    </ion-col>
+                                </ion-row>
+    
+                                <ion-row>
+                                    <ion-col size="10">
+                                        <p style="margin: 0px;" class="text-size">{{ no_completa.nom_tarea_servicio }}</p>
+                                    </ion-col>
+    
+                                    <ion-col size="2" style="display: flex; justify-content: end;">
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(no_completa)">revisar</p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            
+                        </ion-item>
+                    </ion-card-content>
+
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <ion-button fill="clear" @click="prevPageNo_Completa" :disabled="currentPageNo_Completa === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPageNo_Completa" :disabled="currentPageNo_Completa >= totalPagesNo_Completa">Siguiente</ion-button>
+                    </div>
                 </ion-card>
 
-                <ion-card style="height: 600px;">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-row >
+                            <ion-col size="12" style="display: flex; justify-content: space-between;">
+                                <p style="margin: 0px;" class="title-size">Tareas Completadas</p>
+                                <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-header>
                     
-                </ion-card>
+                    <ion-card-content style="margin: 0px; padding: 0px; height: 367.5px;">
+                        <ion-item v-for="completa in paginatedTasksCompleta" :key="completa.id_tarea_servicio">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col style="margin: 0px;">
+                                        <p class="subtitle-size" >{{ completa.userEncargado ? completa.userEncargado.nom_usuario : 'n/a' }}</p>
+                                    </ion-col>
+                                    <ion-col style="display: flex; justify-content: end;">
+                                        <p class="subtitle-size">{{ formatFecha(completa.fecha_entega_servicio)}}</p>    
+                                    </ion-col>
+                                </ion-row>
+    
+                                <ion-row>
+                                    <ion-col size="10">
+                                        <p style="margin: 0px;" class="text-size">{{ completa.nom_tarea_servicio }}</p>
+                                    </ion-col>
+    
+                                    <ion-col size="2" style="display: flex; justify-content: end;">
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(completa)">revisar</p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            
+                        </ion-item>
+                    </ion-card-content>
 
-                <ion-card style="height: 600px;">
-                    
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <ion-button fill="clear" @click="prevPageCompleta" :disabled="currentPageCompleta === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPageCompleta" :disabled="currentPageCompleta >= totalPagesCompleta">Siguiente</ion-button>
+                    </div 
                 </ion-card>
+                </ion-card>
+                        
             </ion-card>
 
         </ion-content>
@@ -95,6 +211,15 @@ export default {
 
             currentPagePendiente: 1,
             pageSizePendiente: 5,
+
+            currentPageProceso: 1,
+            pageSizeProceso: 5,
+
+            currentPageNo_Completa: 1,
+            pageSizeNo_Completa: 5,
+
+            currentPageCompleta: 1,
+            pageSizeCompleta: 5,
         }
     },
     setup() {
@@ -103,8 +228,14 @@ export default {
         const navigateBack = () => {
             ionRouter.back();
         };
+        
+        const navigateToViewTaskDetails = () => {
+            ionRouter.push('/viewTasksDetails');
+        };
+
         return{
-            navigateBack
+            navigateBack,
+            navigateToViewTaskDetails,
         }
     },
     computed: {
@@ -115,6 +246,33 @@ export default {
             const start = (this.currentPagePendiente - 1) * this.pageSizePendiente;
             const end = start + this.pageSizePendiente;
             return this.tasksPendiente.slice(start, end);
+        },
+
+        totalPagesProceso() {
+            return Math.ceil(this.tasksProceso.length / this.pageSizeProceso);
+        },
+        paginatedTasksProceso() {
+            const start = (this.currentPageProceso - 1) * this.pageSizeProceso;
+            const end = start + this.pageSizeProceso;
+            return this.tasksProceso.slice(start, end);
+        },
+
+        totalPagesNo_Completa() {
+            return Math.ceil(this.tasksNoCompletada.length / this.pageSizeNo_Completa);
+        },
+        paginatedTasksNo_Completa() {
+            const start = (this.currentPageNo_Completa - 1) * this.pageSizeNo_Completa;
+            const end = start + this.pageSizeNo_Completa;
+            return this.tasksNoCompletada.slice(start, end);
+        },
+
+        totalPagesCompleta() {
+            return Math.ceil(this.tasksCompletadas.length / this.pageSizeCompleta);
+        },
+        paginatedTasksCompleta() {
+            const start = (this.currentPageCompleta - 1) * this.pageSizeCompleta;
+            const end = start + this.pageSizeCompleta;
+            return this.tasksCompletadas.slice(start, end);
         }
     },
     methods: {
@@ -324,6 +482,7 @@ export default {
                 proceso.priority = this.priorities.find(priority => priority.id_prioridad == proceso.idtareasprioridad);
                 return proceso;
             });
+
         },
         formatFecha(fecha) {
             return fecha ? fecha.slice(0, 10) : '';
@@ -333,7 +492,7 @@ export default {
         },
 
         nextPagePendiente() {
-            if (this.currentPagePendiente < this.totalPages) {
+            if (this.currentPagePendiente < this.totalPagesPendiente) {
                 this.currentPagePendiente++;
             }
         },
@@ -343,8 +502,42 @@ export default {
             }
         },
 
-        get_id_task(id_task){
+        nextPageProceso() {
+            if (this.currentPageProceso < this.totalPagesProceso) {
+                this.currentPageProceso++;
+            }
+        },
+        prevPageProceso() {
+            if (this.currentPageProceso > 1) {
+                this.currentPageProceso--;
+            }
+        },
 
+        nextPageNo_Completa() {
+            if (this.currentPageNo_Completa < this.totalPagesNo_Completa) {
+                this.currentPageNo_Completa++;
+            }
+        },
+        prevPageNo_Completa() {
+            if (this.currentPageNo_Completa > 1) {
+                this.currentPageNo_Completa--;
+            }
+        },
+        
+        nextPageCompleta() {
+            if (this.currentPageCompleta < this.totalPagesCompleta) {
+                this.currentPageCompleta++;
+            }
+        },
+        prevPageCompleta() {
+            if (this.currentPageCompleta > 1) {
+                this.currentPageCompleta--;
+            }
+        },
+
+        Get_task(task){
+            localStorage.setItem('task-detail', JSON.stringify(task));
+            this.navigateToViewTaskDetails()
         }
     },
     created(){
