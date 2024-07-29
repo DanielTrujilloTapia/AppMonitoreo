@@ -17,7 +17,7 @@
 
                     <div>
                         <p class="subtitle-size">Recuerda que al crear una falla puede ser Modificada o se puede convertirse en un servicio</p>
-                        <p class="button-custom">Ver todas las fallas?</p>
+                        <p class="button-custom" @click.prevent="navigateToViewTasks">Ver todas las fallas?</p>
                     </div>
                 </ion-card-header>
 
@@ -84,9 +84,14 @@ export default {
             ionRouter.push('/createService');
         }
 
+        const navigateToViewTasks = () => {
+            ionRouter.push('/viewTasksfailures');
+        }
+
         return{
             navigateToServiceform,
             navigateToCreateServiceform,
+            navigateToViewTasks,
             addOutline,
             personCircle,
             addSharp,
