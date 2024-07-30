@@ -35,7 +35,7 @@
 <script>
 import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonItem, IonInput, IonModal, IonCardHeader, IonCardContent, } from '@ionic/vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
-import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
+import CardTareasReutilizableComponent from '../components/cardFailuresTasks.vue'
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
 import { useIonRouter } from '@ionic/vue';
 
