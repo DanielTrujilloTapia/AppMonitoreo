@@ -269,7 +269,7 @@ export default {
         paginatedTasksNoCompletadas() {
             const start = (this.currentPageNo_Completa - 1) * this.pageSizeNo_Completa;
             const end = start + this.pageSizeNo_Completa;
-            return this.tasksCompletadas.slice(start, end);
+            return this.tasksNoCompletada.slice(start, end);
         },
     },
     methods: {
