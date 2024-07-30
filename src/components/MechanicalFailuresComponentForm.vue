@@ -271,7 +271,7 @@ export default {
         const ionRouter = useIonRouter();
         
         const navigateToService = () => {
-            ionRouter.push('/service');
+            ionRouter.push('/failures');
         };
 
         return{

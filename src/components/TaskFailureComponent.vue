@@ -133,13 +133,11 @@
 
                 </ion-card>
 
-                <ion-card style="height: 600px;">
-                    
-                      
+                <ion-card>
                     <ion-card-header>
                         <ion-row >
                             <ion-col size="12" style="display: flex; justify-content: space-between;">
-                                <p style="margin: 0px;" class="title-size">Tus tareas No Completadas</p>
+                                <p style="margin: 0px;" class="title-size">Tareas no Completadas</p>
                                 <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
                             </ion-col>
                         </ion-row>
@@ -153,7 +151,7 @@
                                         <p class="subtitle-size" >{{ no_completa.userEncargado ? no_completa.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(no_completa.fecha_entrega_falla)}}</p>    
+                                        <p class="subtitle-size">{{ formatFecha(no_completa.fecha_entega_falla)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -172,10 +170,9 @@
                     </ion-card-content>
 
                     <div style="display: flex; justify-content: space-around; text-align: center;">
-                        <ion-button fill="clear" @click="prevPagePendiente" :disabled="currentPagePendiente === 1">Anterior</ion-button>
-                        <ion-button fill="clear" @click="nextPagePendiente" :disabled="currentPagePendiente >= totalPagesNoCompleta">Siguiente</ion-button>
+                        <ion-button fill="clear" @click="prevPageNoComplete" :disabled="currentPageNo_Completa === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPageNoComplete" :disabled="currentPageNo_Completa >= totalPagesNoCompleta">Siguiente</ion-button>
                     </div>
-
                 </ion-card>
             </ion-card>
 
