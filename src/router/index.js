@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
+import LoginViewPage from '../views/LoginViewPage.vue'
 import HomePage from '../views/HomePage.vue'
 import ServiceTasksPage from '../views/ServiceTasksPage.vue'
 import ServiceTaskFormPage from '../views/ServiceTaskFormPage.vue'
@@ -17,6 +18,11 @@ const routes = [
   {
     path: '/',
     redirect: '/home'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginViewPage
   },
   {
     path: '/home',
