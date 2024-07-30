@@ -31,7 +31,7 @@
                                     </ion-col>
     
                                     <ion-col size="2" style="display: flex; justify-content: end;">
-                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(pendiente)">revisar</p>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -74,7 +74,7 @@
                                     </ion-col>
     
                                     <ion-col size="2" style="display: flex; justify-content: end;">
-                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(proceso)">revisar</p>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -118,7 +118,7 @@
                                     </ion-col>
     
                                     <ion-col size="2" style="display: flex; justify-content: end;">
-                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(completa)">revisar</p>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -163,7 +163,7 @@
                                     </ion-col>
     
                                     <ion-col size="2" style="display: flex; justify-content: end;">
-                                        <p style="margin: 0px;" class="text-size">revisar</p>
+                                        <p style="margin: 0px;" class="text-size" @click.prevent="Get_task(no_completa)">revisar</p>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -233,8 +233,12 @@ export default {
         const navigateBack = () => {
             ionRouter.back();
         };
+        const navigateToViewTasFailkDetails = () => {
+            ionRouter.push('/viewTasksDetails');
+        };
         return{
-            navigateBack
+            navigateBack,
+            navigateToViewTasFailkDetails
         }
     },
     computed: {
@@ -528,8 +532,9 @@ export default {
             }
         },
 
-        get_id_task(id_task){
-
+        Get_task(task){
+            localStorage.setItem('task-fail-detail', JSON.stringify(task));
+            this.navigateToViewTaskDetails()
         }
     },
     created(){
