@@ -45,12 +45,11 @@
                     </div>
                 </ion-card>
 
-                <ion-card style="height: 600px;">
-                    
+                <ion-card>
                     <ion-card-header>
                         <ion-row >
                             <ion-col size="12" style="display: flex; justify-content: space-between;">
-                                <p style="margin: 0px;" class="title-size">Tus tareas en Proceso</p>
+                                <p style="margin: 0px;" class="title-size">Tareas en Proceso</p>
                                 <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
                             </ion-col>
                         </ion-row>
@@ -86,15 +85,13 @@
                         <ion-button fill="clear" @click="prevPageProceso" :disabled="currentPageProceso === 1">Anterior</ion-button>
                         <ion-button fill="clear" @click="nextPageProceso" :disabled="currentPageProceso >= totalPagesProceso">Siguiente</ion-button>
                     </div>
-
                 </ion-card>
 
-                <ion-card style="height: 600px;">
-                    
+                <ion-card>
                     <ion-card-header>
                         <ion-row >
                             <ion-col size="12" style="display: flex; justify-content: space-between;">
-                                <p style="margin: 0px;" class="title-size">Tus tareas Completadas</p>
+                                <p style="margin: 0px;" class="title-size">Tareas Completadas</p>
                                 <p style="margin: 0px;" class="subtitle-size" @click.prevent="navigateBack">volver</p>
                             </ion-col>
                         </ion-row>
@@ -108,7 +105,7 @@
                                         <p class="subtitle-size" >{{ completa.userEncargado ? completa.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(completa.fecha_entrega_falla)}}</p>    
+                                        <p class="subtitle-size">{{ formatFecha(completa.fecha_entega_falla)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -127,10 +124,9 @@
                     </ion-card-content>
 
                     <div style="display: flex; justify-content: space-around; text-align: center;">
-                        <ion-button fill="clear" @click="prevPagePendiente" :disabled="currentPagePendiente === 1">Anterior</ion-button>
-                        <ion-button fill="clear" @click="nextPagePendiente" :disabled="currentPagePendiente >= totalPagesCompleta">Siguiente</ion-button>
+                        <ion-button fill="clear" @click="prevPageComplete" :disabled="currentPageCompleta === 1">Anterior</ion-button>
+                        <ion-button fill="clear" @click="nextPageComplete" :disabled="currentPageCompleta >= totalPagesCompleta">Siguiente</ion-button>
                     </div>
-
                 </ion-card>
 
                 <ion-card>
@@ -441,9 +437,9 @@ export default {
             this.tasksCompletadas = this.tasksCompletadas.map(completa => {
                // completa.servicio = this.services.find(service => service.id_servicio == completa.idcatservicios);
                 completa.plants = this.plants.find(plant => plant.id_planta == completa.idcatplanta);
-                completa.userEncargado = this.users.find(user => user.id_usuario == completa.idusuusuario_encargado);
-                completa.userAyudante = this.users.find(user => user.id_usuario == completa.idusuusuario_ayudante);
-                completa.userAdmin = this.users.find(user => user.id_usuario == completa.idusuusuario_admin);
+                completa.userEncargado = this.users.find(user => user.id_usuario == completa.idusuario_encargado);
+                completa.userAyudante = this.users.find(user => user.id_usuario == completa.idusuario_ayudante);
+                completa.userAdmin = this.users.find(user => user.id_usuario == completa.idusuario_admin);
                 completa.status = this.status.find(status => status.id_estatus == completa.idtareaestatus_falla);
                 completa.priority = this.priorities.find(priority => priority.id_prioridad == completa.idtareaprioridad);
                 return completa;
@@ -452,9 +448,9 @@ export default {
             this.tasksNoCompletada = this.tasksNoCompletada.map(no_completa => {
                // no_completa.servicio = this.services.find(service => service.id_servicio == no_completa.idcatservicios);
                 no_completa.plants = this.plants.find(plant => plant.id_planta == no_completa.idcatplanta);
-                no_completa.userEncargado = this.users.find(user => user.id_usuario == no_completa.idusuusuario_encargado);
-                no_completa.userAyudante = this.users.find(user => user.id_usuario == no_completa.idusuusuario_ayudante);
-                no_completa.userAdmin = this.users.find(user => user.id_usuario == no_completa.idusuusuario_admin);
+                no_completa.userEncargado = this.users.find(user => user.id_usuario == no_completa.idusuario_encargado);
+                no_completa.userAyudante = this.users.find(user => user.id_usuario == no_completa.idusuario_ayudante);
+                no_completa.userAdmin = this.users.find(user => user.id_usuario == no_completa.idusuario_admin);
                 no_completa.status = this.status.find(status => status.id_estatus == no_completa.idtareaestatus_falla);
                 no_completa.priority = this.priorities.find(priority => priority.id_prioridad == no_completa.idtareaprioridad);
                 return no_completa;
