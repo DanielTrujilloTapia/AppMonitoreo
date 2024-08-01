@@ -123,64 +123,63 @@
     }
     </script>
     
-    <style scoped>
-    .blur-background {
-      filter: blur(5px);
-      -webkit-filter: blur(5px); /* Para Safari */
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      overflow: hidden;
-    }
-    
-    .background-card {
-      height: 100%;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .background-img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover; /* Asegura que la imagen cubra todo el área del card */
-    }
-    
-    .overlay-card {
-      position: absolute;
-      top: 45%;
-      left: 48%;
-      transform: translate(-50%, -50%);
-      width: 300px; /* Ajusta el ancho del card según sea necesario */
-      padding: 20px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      z-index: 2;
-    }
-    
-    .overlay-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .login-button {
-      margin-top: 20px;
-    }
-    
-    .forgot-password {
-      text-align: center;
-      margin-top: 10px;
-    }
-    
-    @media (min-width: 600px) {
-      .overlay-card {
-        width: 500px;
-        height: auto; /* Permite que el card se ajuste al contenido */
-      }
-    }
-    </style>
+<style scoped>
+.blur-background {
+  filter: blur(5px);
+  -webkit-filter: blur(5px); /* Para Safari */
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.background-card {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.background-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra todo el área del card */
+}
+
+.overlay-card {
+  position: absolute;
+  top: 45%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  width: 300px; /* Ajusta el ancho del card según sea necesario */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.overlay-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-button {
+  margin-top: 20px;
+}
+
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media (min-width: 600px) {
+  .overlay-card {
+    width: 500px;
+    height: auto; /* Permite que el card se ajuste al contenido */
+  }
+}
+</style>
     
