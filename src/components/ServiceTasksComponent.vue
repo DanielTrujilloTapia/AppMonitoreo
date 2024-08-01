@@ -169,7 +169,7 @@ export default {
       async GetServices() {
             /* Consulta SERVICIOS */
             try {
-                const responseServices = await fetch('https://localhost:7296/api/Cat_Servicios');
+                const responseServices = await fetch('https://192.168.1.78:7296/api/Cat_Servicios');
                 this.services = await responseServices.json();
                 this.filteredServices = this.services;
             } catch (error) {

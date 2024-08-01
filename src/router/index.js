@@ -18,7 +18,7 @@ import LocPage from '../views/LocalitationPage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/login'
   },
   {
     path: '/login',
