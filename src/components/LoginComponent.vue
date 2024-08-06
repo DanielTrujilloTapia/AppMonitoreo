@@ -105,6 +105,9 @@
                     if(this.password === userToLogin.contrasena){
                       console.log('usuario inicio sesion correctamente');
                       console.log(userToLogin);
+                      
+                      localStorage.setItem('User-login', JSON.stringify(userToLogin));
+                      
                       this.navigateToHome();
                     }else{
                       console.log('la contraseña es incorrecta');
