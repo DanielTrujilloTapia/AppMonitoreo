@@ -113,6 +113,7 @@ export default {
             // Obtener la tarea desde localStorage
             const taskData = localStorage.getItem('task-detail');
             this.tarea = taskData ? JSON.parse(taskData) : null;
+            const User = localStorage.getItem('User-login');
 
             if (!this.tarea) {
                 console.log('No se encontró ninguna tarea en localStorage');
@@ -199,10 +200,12 @@ export default {
             }
         },
 
-        inicio(lat,lon){
+       async inicio(lat,lon){
             this.obtenerUbicacion();
             const nlat= parseFloat(this.latestatica);
             const nlon= parseFloat(this.lonestatica);
+            const fechaActual = new Date();
+            const fechaFormateada = fechaActual.toISOString();
             const sumalat = nlat + 0.01;
             const reslat = nlat - 0.01;
             const sumalong = nlon + 0.01;
@@ -214,6 +217,35 @@ export default {
             if (lat >= reslat && lat <= sumalat) {
                 if (lon >= reslong && lon <= sumalong) {
                     console.log("Realizar el post");
+
+                    await fetch('https://192.168.1.78:7296/api/Tareas_Servicios', {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                    id_tarea_servicio: tarea.id_tarea_servicio,
+                                      nom_tarea_servicio: tarea.nom_tarea_servicio,
+                                      idcatservicios: tarea.idcatservicios,
+                                      idusuusuario_encargado: tarea.idusuusuario_encargado,
+                                      idusuusuario_ayudante: tarea.idusuusuario_ayudante,
+                                      idusuusuario_admin: tarea.idusuusuario_admin,
+                                      idcatplantas: tarea.idcatplantas,
+                                      fecha_publicacion_servicio: tarea.fecha_publicacion_servicio,
+                                      fecha_entega_servicio: tarea.fecha_entega_servicio,
+                                      idtareaestatus_servicio: 4,
+                                      idtareasprioridad: tarea.idtareasprioridad
+                                    })
+                                });
+                                console.log("TAREA INICIADA");
+                    
+                                await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios', {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        idtareaservicio: tarea.id_tarea_servicio,
+                                        fecha_inicio_servicio: fechaFormateada,
+                                        fecha_finalizacion_servicio: null,
+                                    })
+                                });            
                 } else {
                     console.log("La longitud sobrepasa el rango establecido");
                 }
