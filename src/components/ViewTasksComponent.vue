@@ -21,7 +21,7 @@
                                         <p class="subtitle-size" >{{ pendiente.userEncargado ? pendiente.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(pendiente.fecha_entega_servicio)}}</p>    
+                                        <p class="subtitle-size">{{ formatDate(pendiente.fecha_entega_servicio)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -63,7 +63,7 @@
                                         <p class="subtitle-size" >{{ proceso.userEncargado ? proceso.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(proceso.fecha_entega_servicio)}}</p>    
+                                        <p class="subtitle-size">{{ formatDate(proceso.fecha_entega_servicio)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -105,7 +105,7 @@
                                         <p class="subtitle-size" >{{ no_completa.userEncargado ? no_completa.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(no_completa.fecha_entega_servicio)}}</p>    
+                                        <p class="subtitle-size">{{ formatDate(no_completa.fecha_entega_servicio)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -147,7 +147,7 @@
                                         <p class="subtitle-size" >{{ completa.userEncargado ? completa.userEncargado.nom_usuario : 'n/a' }}</p>
                                     </ion-col>
                                     <ion-col style="display: flex; justify-content: end;">
-                                        <p class="subtitle-size">{{ formatFecha(completa.fecha_entega_servicio)}}</p>    
+                                        <p class="subtitle-size">{{ formatDate(completa.fecha_entega_servicio)}}</p>    
                                     </ion-col>
                                 </ion-row>
     
@@ -390,10 +390,34 @@ export default {
                 const responseTasks = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
                 const tasks = await responseTasks.json();
 
-                this.tasksCompletadas = tasks.filter(task => task.idtareaestatus_servicio === 1);
-                this.tasksNoCompletada = tasks.filter(task => task.idtareaestatus_servicio === 2);
-                this.tasksPendiente = tasks.filter(task => task.idtareaestatus_servicio === 3);
-                this.tasksProceso = tasks.filter(task => task.idtareaestatus_servicio === 4);
+                const userToLogin = JSON.parse(localStorage.getItem('User-login'));
+
+                if(userToLogin.idusutipousuario === 1){
+                    const tareaCompletada = tasks.filter(task => task.idtareaestatus_servicio === 1);
+                    this.tasksCompletadas = tareaCompletada.filter(TC => TC.idusuusuario_admin === userToLogin.id_usuario); 
+
+                    const tareaNoCompletada = tasks.filter(task => task.idtareaestatus_servicio === 2); 
+                    this.tasksNoCompletada = tareaNoCompletada.filter(TNC => TNC.idusuusuario_admin === userToLogin.id_usuario); 
+
+                    const tareaPendiente = tasks.filter(task => task.idtareaestatus_servicio === 3);
+                    this.tasksPendiente = tareaPendiente.filter(TP => TP.idusuusuario_admin === userToLogin.id_usuario); 
+
+                    const tareaProceso = tasks.filter(task => task.idtareaestatus_servicio === 4); 
+                    this.tasksProceso = tareaProceso.filter(TPRO => TPRO.idusuusuario_admin === userToLogin.id_usuario); 
+                }
+                if(userToLogin.idusutipousuario === 2){
+                    const tareaCompletada = tasks.filter(task => task.idtareaestatus_servicio === 1);
+                    this.tasksCompletadas = tareaCompletada.filter(TC => TC.idusuario_encargado === userToLogin.id_usuario || TC.idusuario_ayudante === userToLogin.id_usuario ); 
+
+                    const tareaNoCompletada = tasks.filter(task => task.idtareaestatus_servicio === 2); 
+                    this.tasksNoCompletada = tareaNoCompletada.filter(TNC => TNC.idusuario_encargado === userToLogin.id_usuario || TNC.idusuario_ayudante === userToLogin.id_usuario ); 
+
+                    const tareaPendiente = tasks.filter(task => task.idtareaestatus_servicio === 3);
+                    this.tasksPendiente = tareaPendiente.filter(TP => TP.idusuario_encargado === userToLogin.id_usuario || TP.idusuario_ayudante === userToLogin.id_usuario ); 
+
+                    const tareaProceso = tasks.filter(task => task.idtareaestatus_servicio === 4); 
+                    this.tasksProceso = tareaProceso.filter(TPRO => TPRO.idusuario_encargado === userToLogin.id_usuario || TPRO.idusuario_ayudante === userToLogin.id_usuario ); 
+                }
 
             } catch (error) {
                 console.log('Sucedio un : ', error);
@@ -537,7 +561,14 @@ export default {
         Get_task(task){
             localStorage.setItem('task-detail', JSON.stringify(task));
             this.navigateToViewTaskDetails()
-        }
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'short' });
+            const year = date.getFullYear();
+            return `${day} de ${month} de ${year}`;
+        },
     },
     created(){
         this.UpdateStateTask();

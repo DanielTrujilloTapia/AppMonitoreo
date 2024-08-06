@@ -182,7 +182,7 @@ export default {
             }
 
         },
-
+        
         formatDate(dateString) {
             const date = new Date(dateString);
             const day = date.getDate();
