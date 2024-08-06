@@ -94,7 +94,7 @@
 
               if(this.username !== '' && this.password !== '' ){
 
-                  const response = await fetch('https://192.168.1.78:7296/api/Usu_Usuarios');
+                  const response = await fetch('https://177.17.10.11:7296/api/Usu_Usuarios');
                   const existe = await response.json();
                   
                   const userToLogin = existe.find(user => user.nom_usuario === this.username);

@@ -54,7 +54,7 @@
                             </ion-item>
                         </ion-col>
                         <ion-col size="4" style="display: flex; justify-content: center; align-items: center; padding-top: 20px;">
-                            <ion-button>Iniciar</ion-button>
+                            <ion-button @click.prevent="inicio">Iniciar</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>
@@ -88,6 +88,14 @@ export default {
             users: [],
             priorities: [],
             status: [],
+
+            ubi:null,
+            ubicacionDetallada: null,
+            direccion: null,
+            lat:null,
+            lon:null,
+            latestatica:null,
+            lonestatica:null,
         }
     },
     setup() {
@@ -114,11 +122,11 @@ export default {
             // Fetch data from APIs
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
-                    fetch('https://localhost:7296/api/Cat_Servicios'),
-                    fetch('https://localhost:7296/api/Cat_Plantas'),
-                    fetch('https://localhost:7296/api/Usu_Usuarios'),
-                    fetch('https://localhost:7296/api/Tareas_Prioridades'),
-                    fetch('https://localhost:7296/api/Tareas_Estatus')
+                    fetch('https://177.17.10.11:7296/api/Cat_Servicios'),
+                    fetch('https://177.17.10.11:7296/api/Cat_Plantas'),
+                    fetch('https://177.17.10.11:7296/api/Usu_Usuarios'),
+                    fetch('https://177.17.10.11:7296/api/Tareas_Prioridades'),
+                    fetch('https://177.17.10.11:7296/api/Tareas_Estatus')
                 ]);
 
                 this.services = await responseServices.json();
@@ -136,6 +144,8 @@ export default {
                 this.tarea.status = this.status.find(status => status.id_estatus === this.tarea.idtareaestatus_servicio);
                 this.tarea.priority = this.priorities.find(priority => priority.id_prioridad === this.tarea.idtareasprioridad);
 
+                this.direccion= this.tarea.plants.ubicacion;
+
             } catch (error) {
                 console.log('Sucedió un error:', error);
             }
@@ -148,6 +158,70 @@ export default {
             const year = date.getFullYear();
             return `${day} de ${month} de ${year}`;
         },
+
+        async obtenerCoordenadas(direccion) {
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(direccion)}&format=json&limit=1`);
+            const data = await response.json();
+            if (data && data.length > 0) {
+              this.coordenadas = {
+                lat: data[0].lat,
+                lon: data[0].lon
+              };
+              console.log(`Latitud: ${this.coordenadas.lat}, Longitud: ${this.coordenadas.lon}`);
+              this.latestatica=this.coordenadas.lat;
+              this.lonestatica=this.coordenadas.lon;
+              console.log('latitud estatica ',this.latestatica, 'longitud estatica', this.lonestatica);
+            } else {
+              alert('No se encontraron coordenadas para la dirección proporcionada.');
+            }
+          } catch (error) {
+            console.log('Error al obtener las coordenadas', error);
+          }
+        },
+
+        async obtenerUbicacion() {
+            try {
+                const obtenerPosicion = () => {
+                return new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                });
+                };
+
+                const position = await obtenerPosicion();
+                this.ubi = position;
+                this.lat = this.ubi.coords.latitude;
+                this.lon = this.ubi.coords.longitude;
+                console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
+                this.obtenerCoordenadas(this.direccion);
+            } catch (error) {
+                alert('Error al obtener la ubicación', error);
+            }
+        },
+
+        inicio(lat,lon){
+            this.obtenerUbicacion();
+            const nlat= parseFloat(this.latestatica);
+            const nlon= parseFloat(this.lonestatica);
+            const sumalat = nlat + 0.01;
+            const reslat = nlat - 0.01;
+            const sumalong = nlon + 0.01;
+            const reslong = nlon - 0.01;
+
+            console.log(`Rango de latitud: ${reslat} a ${sumalat}`);
+            console.log(`Rango de longitud: ${reslong} a ${sumalong}`);
+
+            if (lat >= reslat && lat <= sumalat) {
+                if (lon >= reslong && lon <= sumalong) {
+                    console.log("Realizar el post");
+                } else {
+                    console.log("La longitud sobrepasa el rango establecido");
+                }
+            } else {
+                console.log("La latitud sobrepasa el rango establecido");
+            }
+        }
+
     },
     created() {
         this.GetDetailsTask();
