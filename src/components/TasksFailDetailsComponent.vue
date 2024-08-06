@@ -29,10 +29,7 @@
                         <ion-label class="subtitle-size" position="stacked">Planta</ion-label>
                         <p class="text-size">{{ tarea?.plants?.nom_planta || 'Sin planta asignada' }}</p>
                     </ion-item>
-                    <ion-item lines="none">
-                        <ion-label class="subtitle-size" position="stacked">Servicio</ion-label>
-                        <p class="text-size" >{{ tarea?.service?.nom_servicio || 'Sin servicio asignado' }}</p>
-                    </ion-item>
+                  
                     <ion-item lines="none">
                         <ion-label class="subtitle-size" position="stacked">Encargado</ion-label>
                         <p class="text-size" >{{ tarea?.userEncargado?.nom_usuario || 'Sin encargado asignado' }}</p>
