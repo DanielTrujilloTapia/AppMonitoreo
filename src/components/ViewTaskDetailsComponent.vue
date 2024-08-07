@@ -55,7 +55,7 @@
                         </ion-col>
                         <ion-col size="4" style="display: flex; justify-content: center; align-items: center; padding-top: 20px;">
                             <ion-button v-if="btninicio" @click.prevent="inicio">Iniciar</ion-button>
-                            <ion-button v-if="btnfin" @click.prevent="finalizar">Final</ion-button>
+                            <ion-button v-if="btnfin" @click.prevent="finalizar" color="danger">Final</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>
@@ -149,6 +149,8 @@ export default {
                 this.tarea.priority = this.priorities.find(priority => priority.id_prioridad === this.tarea.idtareasprioridad);
 
                 this.direccion= this.tarea.plants.ubicacion;
+                console.log(this.tarea.plants.ubicacion);
+                this.obtenerCoordenadas(this.direccion);
 
             } catch (error) {
                 console.log('Sucedió un error:', error);
@@ -172,7 +174,6 @@ export default {
                 lat: data[0].lat,
                 lon: data[0].lon
               };
-              console.log(`Latitud: ${this.coordenadas.lat}, Longitud: ${this.coordenadas.lon}`);
               this.latestatica=this.coordenadas.lat;
               this.lonestatica=this.coordenadas.lon;
               console.log('latitud estatica ',this.latestatica, 'longitud estatica', this.lonestatica);
@@ -197,7 +198,6 @@ export default {
                 this.lat = this.ubi.coords.latitude;
                 this.lon = this.ubi.coords.longitude;
                 console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
-                this.obtenerCoordenadas(this.direccion);
             } catch (error) {
                 alert('Error al obtener la ubicación', error);
             }
@@ -209,10 +209,10 @@ export default {
             const nlon= parseFloat(this.lonestatica);
             const fechaActual = new Date();
             const fechaFormateada = fechaActual.toISOString();
-            const sumalat = nlat + 0.01;
-            const reslat = nlat - 0.01;
-            const sumalong = nlon + 0.01;
-            const reslong = nlon - 0.01;
+            const sumalat = nlat + 0.02;
+            const reslat = nlat - 0.02;
+            const sumalong = nlon + 0.02;
+            const reslong = nlon - 0.02;
 
             console.log(`Rango de latitud: ${reslat} a ${sumalat}`);
             console.log(`Rango de longitud: ${reslong} a ${sumalong}`);

@@ -59,7 +59,8 @@ export default {
             nuevalat:null,
             nuevalon:null,
             latitudestatica: null,
-            longitudestatica: null
+            longitudestatica: null,
+            loc:"Col Nueva Santa María Hidalgo",
         }
     },
     methods: {
@@ -77,6 +78,7 @@ export default {
         this.lon = this.ubi.coords.longitude;
         console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
         this.obtenerUbicacionDetallada(this.ubi.coords.latitude, this.ubi.coords.longitude);
+        this.obtenerCoordenadas(this.loc);
       } catch (error) {
         alert('Error al obtener la ubicación', error);
       }

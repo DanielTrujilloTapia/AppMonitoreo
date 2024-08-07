@@ -21,6 +21,7 @@ import MenuComponent from '../components/MenuComponent.vue'
 import CardReutilizableComponent from '../components/CardReutilizableComponent.vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
 import { addOutline, eyeOutline } from 'ionicons/icons';
+import { Geolocation } from '@ionic-native/geolocation';
 
 export default {
     name: 'HomeComponent',
@@ -37,6 +38,26 @@ export default {
             addOutline,
             eyeOutline,
         }
+    },
+    methods:{
+        async checkLocationEnabled() {
+      try {
+        const position = await Geolocation.getCurrentPosition();
+      } catch (error) {
+        if (error.code === error.PERMISSION_DENIED) {
+          console.error('Permiso denegado', error);
+          this.promptEnableLocation();
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          console.error('Posición no disponible', error);
+          this.promptEnableLocation();
+        } else {
+          console.error('Error al obtener la ubicación', error);
+        }
+      }
+    },
+    },
+    created(){
+        this.checkLocationEnabled();
     }
 }
 </script>
