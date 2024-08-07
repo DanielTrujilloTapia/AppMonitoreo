@@ -203,8 +203,7 @@ export default {
             }
         },
 
-       async inicio(lat,lon){
-            this.obtenerUbicacion();
+       async inicio(){
             const nlat= parseFloat(this.latestatica);
             const nlon= parseFloat(this.lonestatica);
             const fechaActual = new Date();
@@ -214,11 +213,13 @@ export default {
             const sumalong = nlon + 0.02;
             const reslong = nlon - 0.02;
 
+            console.log(this.lat, this.lon);
+
             console.log(`Rango de latitud: ${reslat} a ${sumalat}`);
             console.log(`Rango de longitud: ${reslong} a ${sumalong}`);
 
-            if (lat >= reslat && lat <= sumalat) {
-                if (lon >= reslong && lon <= sumalong) {
+            if (this.lat >= reslat && this.lat <= sumalat) {
+                if (this.lon >= reslong && this.lon <= sumalong) {
                     console.log("Realizar el post");
 
                     try {
@@ -274,6 +275,7 @@ export default {
     },
     created() {
         this.GetDetailsTask();
+        this.obtenerUbicacion();
     }
 }
 </script>
