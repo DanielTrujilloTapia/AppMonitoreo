@@ -174,7 +174,7 @@ export default {
                     this.tasks = tasksss.filter(tarea => tarea.idusuusuario_admin === userToLogin.id_usuario);
                 }
                 if(userToLogin.idusutipousuario === 2){
-                    this.tasks = tasksss.filter(tarea => tarea.idusuario_encargado === userToLogin.id_usuario || tarea.idusuario_ayudante === userToLogin.id_usuario );
+                    this.tasks = tasksss.filter(tarea => tarea.idusuusuario_encargado === userToLogin.id_usuario || tarea.idusuusuario_ayudante === userToLogin.id_usuario );
                 }
 
             } catch (error) {

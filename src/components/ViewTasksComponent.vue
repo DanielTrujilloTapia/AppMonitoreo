@@ -407,16 +407,16 @@ export default {
                 }
                 if(userToLogin.idusutipousuario === 2){
                     const tareaCompletada = tasks.filter(task => task.idtareaestatus_servicio === 1);
-                    this.tasksCompletadas = tareaCompletada.filter(TC => TC.idusuario_encargado === userToLogin.id_usuario || TC.idusuario_ayudante === userToLogin.id_usuario ); 
+                    this.tasksCompletadas = tareaCompletada.filter(TC => TC.idusuusuario_encargado === userToLogin.id_usuario || TC.idusuusuario_ayudante === userToLogin.id_usuario ); 
 
                     const tareaNoCompletada = tasks.filter(task => task.idtareaestatus_servicio === 2); 
-                    this.tasksNoCompletada = tareaNoCompletada.filter(TNC => TNC.idusuario_encargado === userToLogin.id_usuario || TNC.idusuario_ayudante === userToLogin.id_usuario ); 
+                    this.tasksNoCompletada = tareaNoCompletada.filter(TNC => TNC.idusuusuario_encargado === userToLogin.id_usuario || TNC.idusuusuario_ayudante === userToLogin.id_usuario ); 
 
                     const tareaPendiente = tasks.filter(task => task.idtareaestatus_servicio === 3);
-                    this.tasksPendiente = tareaPendiente.filter(TP => TP.idusuario_encargado === userToLogin.id_usuario || TP.idusuario_ayudante === userToLogin.id_usuario ); 
+                    this.tasksPendiente = tareaPendiente.filter(TP => TP.idusuusuario_encargado === userToLogin.id_usuario || TP.idusuusuario_ayudante === userToLogin.id_usuario ); 
 
                     const tareaProceso = tasks.filter(task => task.idtareaestatus_servicio === 4); 
-                    this.tasksProceso = tareaProceso.filter(TPRO => TPRO.idusuario_encargado === userToLogin.id_usuario || TPRO.idusuario_ayudante === userToLogin.id_usuario ); 
+                    this.tasksProceso = tareaProceso.filter(TPRO => TPRO.idusuusuario_encargado === userToLogin.id_usuario || TPRO.idusuusuario_ayudante === userToLogin.id_usuario ); 
                 }
 
             } catch (error) {
