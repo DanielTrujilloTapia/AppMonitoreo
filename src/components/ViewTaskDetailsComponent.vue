@@ -221,7 +221,8 @@ export default {
                 if (lon >= reslong && lon <= sumalong) {
                     console.log("Realizar el post");
 
-                    await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                    try {
+                        await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -238,23 +239,36 @@ export default {
                                       idtareasprioridad: tarea.idtareasprioridad
                                     })
                                 });
-                                console.log("TAREA INICIADA");
+                    } catch (error) {
+                        console.log("NO se realizo el registro en tarea servicios", error);
+                    }
                     
-                                await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
+                                console.log("TAREA INICIADA");
+                                try {
+                                    await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
                                         idtareaservicio: tarea.id_tarea_servicio,
                                         fecha_inicio_servicio: fechaFormateada,
                                         fecha_finalizacion_servicio: null,
-                                    })
-                                });            
+                                    }) 
+                                });
+                                    this.btninicio=false;
+                                    this.btnfin=true;  
+                                } catch (error) {
+                                    console.log("NO se realizo el registro en monitoreo", error);
+                                }         
                 } else {
                     console.log("La longitud sobrepasa el rango establecido");
                 }
             } else {
                 console.log("La latitud sobrepasa el rango establecido");
             }
+        },
+        async finalizar(){
+            console.log("fin jaja");
+            this.btnfin=false
         }
 
     },
