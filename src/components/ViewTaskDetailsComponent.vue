@@ -54,7 +54,8 @@
                             </ion-item>
                         </ion-col>
                         <ion-col size="4" style="display: flex; justify-content: center; align-items: center; padding-top: 20px;">
-                            <ion-button @click.prevent="inicio">Iniciar</ion-button>
+                            <ion-button v-if="btninicio" @click.prevent="inicio">Iniciar</ion-button>
+                            <ion-button v-if="btnfin" @click.prevent="finalizar">Final</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>
@@ -88,6 +89,8 @@ export default {
             users: [],
             priorities: [],
             status: [],
+            btninicio: true,
+            btnfin: false,
 
             ubi:null,
             ubicacionDetallada: null,
@@ -123,11 +126,11 @@ export default {
             // Fetch data from APIs
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
-                    fetch('https://177.17.10.11:7296/api/Cat_Servicios'),
-                    fetch('https://177.17.10.11:7296/api/Cat_Plantas'),
-                    fetch('https://177.17.10.11:7296/api/Usu_Usuarios'),
-                    fetch('https://177.17.10.11:7296/api/Tareas_Prioridades'),
-                    fetch('https://177.17.10.11:7296/api/Tareas_Estatus')
+                    fetch('https://192.168.1.69:7296/api/Cat_Servicios'),
+                    fetch('https://192.168.1.69:7296/api/Cat_Plantas'),
+                    fetch('https://192.168.1.69:7296/api/Usu_Usuarios'),
+                    fetch('https://192.168.1.69:7296/api/Tareas_Prioridades'),
+                    fetch('https://192.168.1.69:7296/api/Tareas_Estatus')
                 ]);
 
                 this.services = await responseServices.json();
@@ -218,7 +221,7 @@ export default {
                 if (lon >= reslong && lon <= sumalong) {
                     console.log("Realizar el post");
 
-                    await fetch('https://192.168.1.78:7296/api/Tareas_Servicios', {
+                    await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -237,7 +240,7 @@ export default {
                                 });
                                 console.log("TAREA INICIADA");
                     
-                                await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios', {
+                                await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({

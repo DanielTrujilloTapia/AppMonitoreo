@@ -114,7 +114,7 @@ export default {
       async GetServices() {
             /* Consulta SERVICIOS */
             try {
-                const responseServices = await fetch('https://localhost:7296/api/Tareas_Fallas');
+                const responseServices = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
                 this.services = await responseServices.json();
                 this.filteredServices = this.services;
             } catch (error) {

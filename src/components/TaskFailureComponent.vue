@@ -271,7 +271,7 @@ export default {
     methods: {
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://localhost:7296/api/Tareas_Fallas');
+                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -287,7 +287,7 @@ export default {
                     if (tarea.idtareaestatus_falla === 4) {
                         if (fecha_entrega < today) {
                             try {
-                                await fetch('https://localhost:7296/api/Tareas_Fallas', {
+                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -319,7 +319,7 @@ export default {
                             console.log('NO ENTREGADA');
                         }else{
                             try{
-                                await fetch('https://localhost:7296/api/Tareas_Fallas', {
+                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -348,7 +348,7 @@ export default {
                             console.log('PENDIENTE');
                         } else {
                             try{
-                                await fetch('https://localhost:7296/api/Tareas_Fallas', {
+                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -380,7 +380,7 @@ export default {
 
         async GetTasks() {
             try {
-                const responseTasks = await fetch('https://localhost:7296/api/Tareas_Fallas');
+                const responseTasks = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
                 const tasks = await responseTasks.json();
 
                 this.tasksCompletadas = tasks.filter(task => task.idtareaestatus_falla === 1);
@@ -402,7 +402,7 @@ export default {
             */
 
             try {
-                const responsePlants = await fetch('https://localhost:7296/api/Cat_Plantas');
+                const responsePlants = await fetch('https://192.168.1.69:7296/api/Cat_Plantas');
                 this.plants = await responsePlants.json();
 
             } catch (error) {
@@ -410,7 +410,7 @@ export default {
             }
 
             try {
-                const responseUsers = await fetch('https://localhost:7296/api/Usu_Usuarios');
+                const responseUsers = await fetch('https://192.168.1.69:7296/api/Usu_Usuarios');
                 this.users = await responseUsers.json();
 
             } catch (error) {
@@ -418,7 +418,7 @@ export default {
             }
 
             try {
-                const responsePriorities = await fetch('https://localhost:7296/api/Tareas_Prioridades');
+                const responsePriorities = await fetch('https://192.168.1.69:7296/api/Tareas_Prioridades');
                 this.priorities = await responsePriorities.json();
 
             } catch (error) {
@@ -426,7 +426,7 @@ export default {
             }
 
             try {
-                const responseStatus = await fetch('https://localhost:7296/api/Tareas_Estatus');
+                const responseStatus = await fetch('https://192.168.1.69:7296/api/Tareas_Estatus');
                 this.status  = await responseStatus.json();
 
             } catch (error) {

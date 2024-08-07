@@ -55,7 +55,7 @@ export default {
 
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://localhost:7296/api/Tareas_Fallas');
+                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -69,7 +69,7 @@ export default {
                             console.log('NO ENTREGADA');
                         }else{
                             try{
-                                await fetch('https://localhost:7296/api/Tareas_Fallas', {
+                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -98,7 +98,7 @@ export default {
                             console.log('PENDIENTE');
                         } else {
                             try{
-                                await fetch('https://localhost:7296/api/Tareas_Fallas', {
+                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -130,7 +130,7 @@ export default {
 
         async GetTask() {
             try {
-                const response = await fetch('https://localhost:7296/api/Tareas_Fallas');
+                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
                 const tasks = await response.json();
                 this.tasks = tasks.filter(task => task.idtareaestatus_falla === this.Status);
             } catch (error) {
@@ -138,7 +138,7 @@ export default {
             }
 
             try {
-                const responsePriorities = await fetch('https://localhost:7296/api/Tareas_Prioridades');
+                const responsePriorities = await fetch('https://192.168.1.69:7296/api/Tareas_Prioridades');
                 this.priorities = await responsePriorities.json();
             } catch (error) {
               console.error("Error en la consulta de Tareas:", error);

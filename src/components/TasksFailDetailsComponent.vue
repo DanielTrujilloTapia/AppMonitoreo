@@ -112,10 +112,10 @@ export default {
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
                    // fetch('https://localhost:7296/api/Cat_Servicios'),
-                    fetch('https://localhost:7296/api/Cat_Plantas'),
-                    fetch('https://localhost:7296/api/Usu_Usuarios'),
-                    fetch('https://localhost:7296/api/Tareas_Prioridades'),
-                    fetch('https://localhost:7296/api/Tareas_Estatus')
+                    fetch('https://192.168.1.69:7296/api/Cat_Plantas'),
+                    fetch('https://192.168.1.69:7296/api/Usu_Usuarios'),
+                    fetch('https://192.168.1.69:7296/api/Tareas_Prioridades'),
+                    fetch('https://192.168.1.69:7296/api/Tareas_Estatus')
                 ]);
 
               //  this.services = await responseServices.json();
