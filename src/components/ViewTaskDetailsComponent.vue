@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonRow, IonCol, IonItem, IonLabel } from '@ionic/vue';
+import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonRow, IonCol, IonItem, IonLabel, IonButton } from '@ionic/vue';
 import { useIonRouter } from '@ionic/vue';
 
 export default {
@@ -79,7 +79,8 @@ export default {
         IonRow,
         IonCol,
         IonItem,
-        IonLabel
+        IonLabel,
+        IonButton
     },
     data() {
         return {
@@ -221,23 +222,24 @@ export default {
             if (this.lat >= reslat && this.lat <= sumalat) {
                 if (this.lon >= reslong && this.lon <= sumalong) {
                     console.log("Realizar el post");
+                    console.log("id",this.tarea.id_tarea_servicio);
 
                     try {
                         await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                    id_tarea_servicio: tarea.id_tarea_servicio,
-                                      nom_tarea_servicio: tarea.nom_tarea_servicio,
-                                      idcatservicios: tarea.idcatservicios,
-                                      idusuusuario_encargado: tarea.idusuusuario_encargado,
-                                      idusuusuario_ayudante: tarea.idusuusuario_ayudante,
-                                      idusuusuario_admin: tarea.idusuusuario_admin,
-                                      idcatplantas: tarea.idcatplantas,
-                                      fecha_publicacion_servicio: tarea.fecha_publicacion_servicio,
-                                      fecha_entega_servicio: tarea.fecha_entega_servicio,
+                                    id_tarea_servicio: this.tarea.id_tarea_servicio,
+                                      nom_tarea_servicio: this.tarea.nom_tarea_servicio,
+                                      idcatservicios: this.tarea.idcatservicios,
+                                      idusuusuario_encargado: this.tarea.idusuusuario_encargado,
+                                      idusuusuario_ayudante: this.tarea.idusuusuario_ayudante,
+                                      idusuusuario_admin: this.tarea.idusuusuario_admin,
+                                      idcatplantas: this.tarea.idcatplantas,
+                                      fecha_publicacion_servicio: this.tarea.fecha_publicacion_servicio,
+                                      fecha_entega_servicio: this.tarea.fecha_entega_servicio,
                                       idtareaestatus_servicio: 4,
-                                      idtareasprioridad: tarea.idtareasprioridad
+                                      idtareasprioridad: this.tarea.idtareasprioridad
                                     })
                                 });
                     } catch (error) {
@@ -245,12 +247,13 @@ export default {
                     }
                     
                                 console.log("TAREA INICIADA");
+                                console.log("TAREA INICIADA");
                                 try {
                                     await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
-                                    method: 'PUT',
+                                    method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        idtareaservicio: tarea.id_tarea_servicio,
+                                        idtareaservicio: this.tarea.id_tarea_servicio,
                                         fecha_inicio_servicio: fechaFormateada,
                                         fecha_finalizacion_servicio: null,
                                     }) 
