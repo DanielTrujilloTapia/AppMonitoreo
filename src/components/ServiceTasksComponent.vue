@@ -13,7 +13,7 @@
                             <ion-col>
                                 <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
                                     <p class="title-size">Servicios SITEM</p>
-                                    <p class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
+                                    <p v-if="UserLogin.idusutipousuario === 1" class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -67,7 +67,7 @@
                 <ion-card-header>
                     <div style="display: flex; justify-content: space-between;">
                         <p class="title-size">Apartado Tareas de Servicios</p>
-                        <p class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
+                        <p v-if="UserLogin.idusutipousuario === 1" class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
                     </div>
 
                     <div>
@@ -125,6 +125,8 @@ export default {
 
             currentPage: 1,
             itemsPerPage: 5,
+
+            UserLogin: null
         }
     },
     setup() {
@@ -164,9 +166,11 @@ export default {
         },
     },
     methods: {
-      /********************************************************  SERVICES, FILTER AND PAGES  ****************************************************************************************************************************/
+        async GetUserPermissions() {
+            this.UserLogin = localStorage.getItem('User-login');
+        },
 
-      async GetServices() {
+        async GetServices() {
             /* Consulta SERVICIOS */
             try {
                 const responseServices = await fetch('https://192.168.1.69:7296/api/Cat_Servicios');
@@ -205,6 +209,7 @@ export default {
     },
     created() {
         this.GetServices();
+        this.GetUserPermissions();
     }
 }
 </script>
