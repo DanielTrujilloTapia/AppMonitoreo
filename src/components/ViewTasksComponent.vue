@@ -353,7 +353,7 @@ export default {
                     if(fecha_entrega > today){
                         if(tarea.idtareaestatus_servicio === 3){
                             console.log('PENDIENTE');
-                        } else {
+                        } else if(tarea.idtareaestatus_servicio != 4) {
                             try{
                                 await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
                                     method: 'PUT',

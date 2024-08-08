@@ -92,6 +92,8 @@ export default {
             status: [],
             btninicio: true,
             btnfin: false,
+            tipouser: null,
+            id_monitoreo:null,
 
             ubi:null,
             ubicacionDetallada: null,
@@ -118,6 +120,7 @@ export default {
             const taskData = localStorage.getItem('task-detail');
             this.tarea = taskData ? JSON.parse(taskData) : null;
             const User = localStorage.getItem('User-login');
+            this.tipouser = User ? JSON.parse(User.id_usuario) : null;
 
             if (!this.tarea) {
                 console.log('No se encontró ninguna tarea en localStorage');
@@ -155,6 +158,26 @@ export default {
 
             } catch (error) {
                 console.log('Sucedió un error:', error);
+            }
+        },
+
+        usuariologeado(){
+            const userToLogin = JSON.parse(localStorage.getItem('User-login'));
+
+            if(userToLogin.idusutipousuario === 1){
+                this.btninicio= false;
+                this.btnfin= false;
+                console.log("Usuario administrador");
+            }else{
+                if(this.tarea.status===4){
+                    this.btninicio=false;
+                    this.btnfin= true;
+                    console.log("Traea en proceso");
+                }else if(this.tarea.status===2 || this.tarea.status===1){
+                    this.btninicio= false;
+                    this.btnfin= false;
+                    console.log("Traea en Completada/No Completada");
+                }
             }
         },
         
@@ -214,15 +237,11 @@ export default {
             const sumalong = nlon + 0.02;
             const reslong = nlon - 0.02;
 
-            console.log(this.lat, this.lon);
-
             console.log(`Rango de latitud: ${reslat} a ${sumalat}`);
             console.log(`Rango de longitud: ${reslong} a ${sumalong}`);
 
             if (this.lat >= reslat && this.lat <= sumalat) {
                 if (this.lon >= reslong && this.lon <= sumalong) {
-                    console.log("Realizar el post");
-                    console.log("id",this.tarea.id_tarea_servicio);
 
                     try {
                         await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
@@ -246,23 +265,23 @@ export default {
                         console.log("NO se realizo el registro en tarea servicios", error);
                     }
                     
-                                console.log("TAREA INICIADA");
-                                console.log("TAREA INICIADA");
-                                try {
-                                    await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        idtareaservicio: this.tarea.id_tarea_servicio,
-                                        fecha_inicio_servicio: fechaFormateada,
-                                        fecha_finalizacion_servicio: null,
-                                    }) 
-                                });
-                                    this.btninicio=false;
-                                    this.btnfin=true;  
-                                } catch (error) {
-                                    console.log("NO se realizo el registro en monitoreo", error);
-                                }         
+                    console.log("TAREA INICIADA");
+                    try {
+                        await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            idtareaservicio: this.tarea.id_tarea_servicio,
+                            fecha_inicio_servicio: fechaFormateada,
+                            fecha_finalizacion_servicio: null,
+                            }) 
+                        });
+                        this.btninicio=false;
+                        this.btnfin=true;  
+                        this.consulta_monitoreo();
+                    } catch (error) {
+                        console.log("NO se realizo el registro en monitoreo", error);
+                    }
                 } else {
                     console.log("La longitud sobrepasa el rango establecido");
                 }
@@ -272,13 +291,49 @@ export default {
         },
         async finalizar(){
             console.log("fin jaja");
+            try {
+                await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id_monitoreo_servicio:this.id_monitoreo,
+                    idtareaservicio: this.tarea.id_tarea_servicio,
+                    fecha_inicio_servicio: fechaFormateada,
+                    fecha_finalizacion_servicio: null,
+                    }) 
+                });
+                this.btninicio=false;
+                this.btnfin=true;  
+            } catch (error) {
+                console.log("NO se realizo el registro en monitoreo", error);
+            }   
             this.btnfin=false
+        },
+
+        async consulta_monitoreo(){
+            //Consulta en monitoreo para poder finalizar la tarea
+            try {
+                const response = await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios');
+                const tablamonitoreo = await response.json();
+                const registromonitoreo = tablamonitoreo.filter(tmon => tmon.idtareaservicio === this.tarea.id_tarea_servicio);
+                console.log("prueba id monitoreo",registromonitoreo[0].id_monitoreo_servicio);
+                console.log("prueba2 id monitoreo",registromonitoreo.id_monitoreo_servicio);
+                if (registromonitoreo.length === 0) {
+                    this.id_monitoreo = null;
+                } else {
+                    this.id_monitoreo = registromonitoreo[0].id_monitoreo_servicio;
+                }
+            } catch (error) {
+                console.log("Fallo la consulta de monitoreo");
+            }
         }
 
     },
     created() {
         this.GetDetailsTask();
+        this.usuariologeado();
         this.obtenerUbicacion();
+        this.consulta_monitoreo();
     }
 }
 </script>
