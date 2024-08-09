@@ -94,7 +94,7 @@
 
               if(this.username !== '' && this.password !== '' ){
 
-                  const response = await fetch('https://192.168.1.69:7296/api/Usu_Usuarios');
+                  const response = await fetch('https://177.17.10.11:7296/api/Usu_Usuarios');
                   const existe = await response.json();
                   
                   const userToLogin = existe.find(user => user.nom_usuario === this.username);
@@ -102,16 +102,24 @@
                   if (userToLogin) {
                     console.log('usuario encontrado');
 
-                    if(this.password === userToLogin.contrasena){
-                      console.log('usuario inicio sesion correctamente');
-                      console.log(userToLogin);
-                      
-                      localStorage.setItem('User-login', JSON.stringify(userToLogin));
-                      
-                      this.navigateToHome();
-                    }else{
-                      console.log('la contraseña es incorrecta');
-                      alert('verifica que los datos sean correctos');
+                    if(userToLogin.idusuestado === 1){
+                      if(this.password === userToLogin.contrasena){
+                        console.log('usuario inicio sesion correctamente');
+                        console.log(userToLogin);
+                        
+                        localStorage.setItem('User-login', JSON.stringify(userToLogin));
+                        
+                        this.navigateToHome();
+                      }else{
+                        console.log('la contraseña es incorrecta');
+                        alert('verifica que los datos sean correctos');
+                      }
+                    }
+                    if(userToLogin.idusuestado === 2){
+                      alert('La cuenta esta Inactiva');
+                    }
+                    if(userToLogin.idusuestado === 3){
+                      alert('La cuenta esta Suspendida');
                     }
                   }else{
                       console.log('no se encontro al usuario');
