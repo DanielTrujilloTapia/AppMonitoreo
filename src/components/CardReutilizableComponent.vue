@@ -3,14 +3,14 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="4" class="container-image">
-                    <ion-img :src="img" class="custom-image imagen-scale"></ion-img>
+                    <ion-img @click.prevent="navigateToService" :src="img" class="custom-image imagen-scale"></ion-img>
                 </ion-col>
                 <ion-col size="8" class="container-text">
                     <div>
-                        <p class="title-size" >{{ title }}</p>
+                        <p @click.prevent="navigateToService" class="title-size" >{{ title }}</p>
                         <p class="subtitle-size">{{ subtitle }}</p>
-                        <ion-item lines="none" v-if=" textOne != null"><ion-icon :icon="iconOne" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textOne}} </p></ion-item>
-                        <ion-item lines="none" v-if=" textTwo != null"><ion-icon :icon="iconTwo" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textTwo}} </p></ion-item>
+                        <ion-item @click.prevent="navigateToCreateService" lines="none" v-if=" textOne != null && permisosAdmin"><ion-icon :icon="iconOne" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textOne}} </p></ion-item>
+                        <ion-item @click.prevent="navigateToViewTasks" lines="none" v-if=" textTwo != null"><ion-icon :icon="iconTwo" color="primary" class="custom-icon-card"></ion-icon><p class="text-size"> {{textTwo}} </p></ion-item>
                     </div>
                 </ion-col>
             </ion-row>
@@ -20,6 +20,8 @@
 
 <script>
 import { IonCard, IonGrid, IonCol, IonRow, IonImg, IonIcon, IonItem } from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue';
+import { ref } from 'vue';
 
 export default {
     name: 'CardReutilizableComponent',
@@ -40,6 +42,41 @@ export default {
         subtitle: String,
         textOne: String,
         textTwo: String,
+        navigate: String,
+        RutaOne: String,
+        RutaTwo: String
+    },
+    setup(props) {
+        
+        const ionRouter = useIonRouter();
+
+        const navigateToService = () => {
+          ionRouter.push(props.navigate);
+        }
+        const navigateToCreateService = () => {
+          ionRouter.push(props.RutaOne);
+        }
+        const navigateToViewTasks = () => {
+          ionRouter.push(props.RutaTwo);
+        }
+
+        const TypeUserPermissions = localStorage.getItem('User-login');
+        const parsedPermissions = JSON.parse(TypeUserPermissions);
+        const permisosAdmin = ref(null);
+
+        if (parsedPermissions.idusutipousuario === 1) {
+          permisosAdmin.value = true;
+        } else {
+          permisosAdmin.value = false;
+        }
+
+        return {
+            navigateToService,
+            navigateToCreateService,
+            navigateToViewTasks,
+            permisosAdmin
+
+        }
     }
 }
 </script>

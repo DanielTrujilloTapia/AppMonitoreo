@@ -13,7 +13,7 @@
                             <ion-col>
                                 <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
                                     <p class="title-size">Servicios SITEM</p>
-                                    <p v-if="UserLogin.idusutipousuario === 1" class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
+                                    <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -67,7 +67,7 @@
                 <ion-card-header>
                     <div style="display: flex; justify-content: space-between;">
                         <p class="title-size">Apartado Tareas de Servicios</p>
-                        <p v-if="UserLogin.idusutipousuario === 1" class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
+                        <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
                     </div>
 
                     <div>
@@ -93,6 +93,7 @@ import ToolbarComponent from '../components/ToolbarComponent.vue'
 import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
 import { useIonRouter } from '@ionic/vue';
+import { ref } from 'vue';
 
 export default {
     name: 'ServiceTasksComponent',
@@ -144,6 +145,16 @@ export default {
         const navigateToViewTasks = () => {
             ionRouter.push('/viewTasks');
         }
+        
+        const TypeUserPermissions = localStorage.getItem('User-login');
+        const parsedPermissions = JSON.parse(TypeUserPermissions);
+        const permisosAdmin = ref(null);
+
+        if (parsedPermissions.idusutipousuario === 1) {
+          permisosAdmin.value = true;
+        } else {
+          permisosAdmin.value = false;
+        }
 
         return{
             navigateToServiceform,
@@ -152,6 +163,7 @@ export default {
             addOutline,
             personCircle,
             addSharp,
+            permisosAdmin
         }
     },
     computed: {
@@ -166,10 +178,6 @@ export default {
         },
     },
     methods: {
-        async GetUserPermissions() {
-            this.UserLogin = localStorage.getItem('User-login');
-        },
-
         async GetServices() {
             /* Consulta SERVICIOS */
             try {
@@ -209,7 +217,6 @@ export default {
     },
     created() {
         this.GetServices();
-        this.GetUserPermissions();
     }
 }
 </script>
