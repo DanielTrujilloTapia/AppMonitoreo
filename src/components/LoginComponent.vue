@@ -1,5 +1,5 @@
   <template>
-      <ion-page>
+      <ion-page id="main-content">
         <ion-content>
           <div class="blur-background">
             <ion-card class="background-card">

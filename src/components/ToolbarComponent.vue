@@ -1,5 +1,5 @@
 <template>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
         <ion-title class="title"> {{title}} </ion-title>
         <ion-buttons slot="end" class="custom-icon-menu">
             <ion-menu-button :auto-hide="false"></ion-menu-button>

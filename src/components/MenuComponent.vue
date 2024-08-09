@@ -1,5 +1,5 @@
 <template>
-    <ion-menu side="end" content-id="main-content">
+    <ion-menu side="end" content-id="main-content" :disabled="ocultarMenu">
         <ion-header class="custom-header container-center">
             <ion-grid>
                 <ion-row>
@@ -8,8 +8,8 @@
                     </ion-col>
 
                     <ion-col class="center-container">
-                        <p class="custom-username">Daniel CT</p>
-                        <p class="custom-name">Daniel Trujillo Tapia</p>
+                        <p class="custom-username">{{ userToLogin.nom_usuario }}</p>
+                        <p class="custom-name">{{ datos_user.nombres }}</p>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -46,7 +46,7 @@ import { homeOutline, newspaperOutline, hammerOutline, calendarNumberOutline, ey
 import { useRouter } from 'vue-router';
 
 export default {
-    nmae: 'MenuComponent',
+    name: 'MenuComponent',
     components: {
         IonMenu,
         IonHeader,
@@ -58,6 +58,11 @@ export default {
         IonCard,
         IonIcon,
         IonItem
+    },
+    data() {
+        return {
+            ocultarMenu: true,
+        }
     },
     setup() {
 
@@ -108,7 +113,14 @@ export default {
             chevronForwardOutline,
         }
     },
-    methods: {
+    watch: {
+        '$route'(to) {
+          if (to.path === '/login') {
+            this.ocultarMenu = true;
+          }else{
+            this.ocultarMenu = false;
+          }
+        }
     }
 }
 </script>
