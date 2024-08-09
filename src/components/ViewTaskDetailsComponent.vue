@@ -130,11 +130,11 @@ export default {
             // Fetch data from APIs
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
-                    fetch('https://192.168.1.69:7296/api/Cat_Servicios'),
-                    fetch('https://192.168.1.69:7296/api/Cat_Plantas'),
-                    fetch('https://192.168.1.69:7296/api/Usu_Usuarios'),
-                    fetch('https://192.168.1.69:7296/api/Tareas_Prioridades'),
-                    fetch('https://192.168.1.69:7296/api/Tareas_Estatus')
+                    fetch('https://177.17.10.11:7296/api/Cat_Servicios'),
+                    fetch('https://177.17.10.11:7296/api/Cat_Plantas'),
+                    fetch('https://177.17.10.11:7296/api/Usu_Usuarios'),
+                    fetch('https://177.17.10.11:7296/api/Tareas_Prioridades'),
+                    fetch('https://177.17.10.11:7296/api/Tareas_Estatus')
                 ]);
 
                 this.services = await responseServices.json();
@@ -244,7 +244,7 @@ export default {
                 if (this.lon >= reslong && this.lon <= sumalong) {
 
                     try {
-                        await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                        await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -267,7 +267,7 @@ export default {
                     
                     console.log("TAREA INICIADA");
                     try {
-                        await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
+                        await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -292,7 +292,7 @@ export default {
         async finalizar(){
             console.log("fin jaja");
             try {
-                await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios', {
+                await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -313,11 +313,10 @@ export default {
         async consulta_monitoreo(){
             //Consulta en monitoreo para poder finalizar la tarea
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Monitoreo_Tareas_Servicios');
+                const response = await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios');
                 const tablamonitoreo = await response.json();
                 const registromonitoreo = tablamonitoreo.filter(tmon => tmon.idtareaservicio === this.tarea.id_tarea_servicio);
                 console.log("prueba id monitoreo",registromonitoreo[0].id_monitoreo_servicio);
-                console.log("prueba2 id monitoreo",registromonitoreo.id_monitoreo_servicio);
                 if (registromonitoreo.length === 0) {
                     this.id_monitoreo = null;
                 } else {

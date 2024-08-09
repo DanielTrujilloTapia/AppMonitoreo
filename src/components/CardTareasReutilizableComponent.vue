@@ -55,7 +55,7 @@ export default {
 
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Servicios');
+                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -71,7 +71,7 @@ export default {
                     if (tarea.idtareaestatus_servicio === 4) {
                         if (fecha_entrega < today) {
                             try {
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -103,7 +103,7 @@ export default {
                             console.log('NO ENTREGADA');
                         }else{
                             try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -132,7 +132,7 @@ export default {
                             console.log('PENDIENTE');
                         } else if(tarea.idtareaestatus_servicio != 4) {
                             try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -164,7 +164,7 @@ export default {
 
         async GetTask() {
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Servicios');
+                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
                 const tasks = await response.json();
                 const tasksss = tasks.filter(task => task.idtareaestatus_servicio === this.Status);
 
