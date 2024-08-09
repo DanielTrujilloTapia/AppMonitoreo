@@ -8,8 +8,8 @@
                     </ion-col>
 
                     <ion-col class="center-container">
-                        <p class="custom-username">{{ userToLogin.nom_usuario }}</p>
-                        <p class="custom-name">{{ datos_user.nombres }}</p>
+                        <p class="custom-username">Nombre de Usuario</p>
+                        <p class="custom-name">Nombre Completo</p>
                     </ion-col>
                 </ion-row>
             </ion-grid>
