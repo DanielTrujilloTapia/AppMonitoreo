@@ -55,7 +55,7 @@
                         </ion-col>
                         <ion-col size="4" style="display: flex; justify-content: center; align-items: center; padding-top: 20px;">
                             <ion-button v-if="btninicio" @click.prevent="inicio">Iniciar</ion-button>
-                            <ion-button v-if="btnfin" @click.prevent="finalizar" color="danger">Final</ion-button>
+                            <ion-button v-if="btnfin" @click.prevent="finalizar" color="danger">Finalizar</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>
@@ -119,8 +119,6 @@ export default {
             // Obtener la tarea desde localStorage
             const taskData = localStorage.getItem('task-detail');
             this.tarea = taskData ? JSON.parse(taskData) : null;
-            const User = localStorage.getItem('User-login');
-            this.tipouser = User ? JSON.parse(User.id_usuario) : null;
 
             if (!this.tarea) {
                 console.log('No se encontró ninguna tarea en localStorage');
@@ -163,17 +161,23 @@ export default {
 
         usuariologeado(){
             const userToLogin = JSON.parse(localStorage.getItem('User-login'));
+            console.log(this.tarea.status.id_estatus);
+            console.log(userToLogin.idusutipousuario);
 
             if(userToLogin.idusutipousuario === 1){
                 this.btninicio= false;
                 this.btnfin= false;
                 console.log("Usuario administrador");
             }else{
-                if(this.tarea.status===4){
+                if(this.tarea.status.id_estatus===4){
                     this.btninicio=false;
                     this.btnfin= true;
                     console.log("Traea en proceso");
-                }else if(this.tarea.status===2 || this.tarea.status===1){
+                }else if(this.tarea.status.id_estatus===2){
+                    this.btninicio= false;
+                    this.btnfin= false;
+                    console.log("Traea en Completada/No Completada");
+                }else if(this.tarea.status.id_estatus===1){
                     this.btninicio= false;
                     this.btnfin= false;
                     console.log("Traea en Completada/No Completada");
@@ -202,7 +206,7 @@ export default {
               this.lonestatica=this.coordenadas.lon;
               console.log('latitud estatica ',this.latestatica, 'longitud estatica', this.lonestatica);
             } else {
-              alert('No se encontraron coordenadas para la dirección proporcionada.');
+              alert('No se encontraron coordenadas para la ubicacion de la planta. Por favor notificar al administrador');
             }
           } catch (error) {
             console.log('Error al obtener las coordenadas', error);
@@ -291,22 +295,50 @@ export default {
         },
         async finalizar(){
             console.log("fin jaja");
+            const fechaActual = new Date();
+            const fechaFormateada = fechaActual.toISOString();
+        
+            const response = await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios');
+            const tablamonitoreo = await response.json();
+            const registromonitoreo = tablamonitoreo.filter(tmon => tmon.id_monitoreo_servicio === this.id_monitoreo);
+            
             try {
                 await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    id_monitoreo_servicio:this.id_monitoreo,
-                    idtareaservicio: this.tarea.id_tarea_servicio,
-                    fecha_inicio_servicio: fechaFormateada,
-                    fecha_finalizacion_servicio: null,
+                    id_monitoreo_servicio:this.id_monitoreo.id_monitoreo_servicio,
+                    idtareaservicio: this.id_monitoreo.idtareaservicio,
+                    fecha_inicio_servicio: this.id_monitoreo.fecha_inicio_servicio,
+                    fecha_finalizacion_servicio: fechaFormateada,
                     }) 
                 });
-                this.btninicio=false;
-                this.btnfin=true;  
             } catch (error) {
                 console.log("NO se realizo el registro en monitoreo", error);
-            }   
+            }
+            
+            try {
+                        await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                    id_tarea_servicio: this.tarea.id_tarea_servicio,
+                                      nom_tarea_servicio: this.tarea.nom_tarea_servicio,
+                                      idcatservicios: this.tarea.idcatservicios,
+                                      idusuusuario_encargado: this.tarea.idusuusuario_encargado,
+                                      idusuusuario_ayudante: this.tarea.idusuusuario_ayudante,
+                                      idusuusuario_admin: this.tarea.idusuusuario_admin,
+                                      idcatplantas: this.tarea.idcatplantas,
+                                      fecha_publicacion_servicio: this.tarea.fecha_publicacion_servicio,
+                                      fecha_entega_servicio: this.tarea.fecha_entega_servicio,
+                                      idtareaestatus_servicio: 1,
+                                      idtareasprioridad: this.tarea.idtareasprioridad
+                                    })
+                                });
+                    } catch (error) {
+                        console.log("NO se realizo el registro en tarea servicios", error);
+                    }
+            
             this.btnfin=false
         },
 
@@ -320,7 +352,7 @@ export default {
                 if (registromonitoreo.length === 0) {
                     this.id_monitoreo = null;
                 } else {
-                    this.id_monitoreo = registromonitoreo[0].id_monitoreo_servicio;
+                    this.id_monitoreo = registromonitoreo[0];
                 }
             } catch (error) {
                 console.log("Fallo la consulta de monitoreo");
@@ -330,9 +362,9 @@ export default {
     },
     created() {
         this.GetDetailsTask();
+        this.consulta_monitoreo();
         this.usuariologeado();
         this.obtenerUbicacion();
-        this.consulta_monitoreo();
     }
 }
 </script>

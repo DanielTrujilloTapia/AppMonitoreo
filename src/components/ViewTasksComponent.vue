@@ -278,7 +278,7 @@ export default {
     methods: {
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Servicios');
+                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -294,7 +294,7 @@ export default {
                     if (tarea.idtareaestatus_servicio === 4) {
                         if (fecha_entrega < today) {
                             try {
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -324,9 +324,11 @@ export default {
 
                         if(tarea.idtareaestatus_servicio === 2){
                             console.log('NO ENTREGADA');
-                        }else{
+                        }else if(tarea.idtareaestatus_servicio === 1) {
+                            console.error("Tarea completada");
+                        }else if(tarea.idtareaestatus_servicio === 3 || tarea.idtareaestatus_servicio === 4){
                             try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -353,9 +355,11 @@ export default {
                     if(fecha_entrega > today){
                         if(tarea.idtareaestatus_servicio === 3){
                             console.log('PENDIENTE');
-                        } else if(tarea.idtareaestatus_servicio != 4) {
+                        }else if(tarea.idtareaestatus_servicio === 1) {
+                            console.error("Tarea completada");
+                        } else if(tarea.idtareaestatus_servicio != 4 && tarea.idtareaestatus_servicio != 1) {
                             try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Servicios', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
