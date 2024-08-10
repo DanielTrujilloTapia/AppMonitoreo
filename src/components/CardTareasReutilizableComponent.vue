@@ -64,9 +64,6 @@ export default {
                     const today = new Date();
                     const fecha_entrega = new Date(tarea.fecha_entega_servicio);
 
-                    if(tarea.idtareaestatus_servicio === 1){
-                        console.log('Tarea COMPLETADA');
-                    }
                     
                     if (tarea.idtareaestatus_servicio === 4) {
                         if (fecha_entrega < today) {
@@ -99,11 +96,7 @@ export default {
 
                     if(fecha_entrega < today){
 
-                        if(tarea.idtareaestatus_servicio === 2){
-                            console.log('NO ENTREGADA');
-                        }else if(tarea.idtareaestatus_servicio === 1) {
-                            console.error("Tarea completada");
-                        }else if(tarea.idtareaestatus_servicio === 3 || tarea.idtareaestatus_servicio === 4){
+                        if(tarea.idtareaestatus_servicio === 3){
                             try{
                                 await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
@@ -126,15 +119,13 @@ export default {
                             } catch (error) {
                                 console.error("Error en el cambio a no ENTREGADA");
                             }
+                        }else{
+                            console.log("La tarea conserva su estatus");
                         }
                     }
 
                     if(fecha_entrega > today){
-                        if(tarea.idtareaestatus_servicio === 3){
-                            console.log('PENDIENTE');
-                        }else if(tarea.idtareaestatus_servicio === 1) {
-                            console.error("Tarea completada");
-                        } else if(tarea.idtareaestatus_servicio != 4 && tarea.idtareaestatus_servicio != 1) {
+                        if(tarea.idtareaestatus_servicio === 2) {
                             try{
                                 await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
                                     method: 'PUT',
@@ -157,6 +148,8 @@ export default {
                             } catch (error) {
                                 console.error("Error en el cambio a PENDIENTE");
                             }
+                        }else{
+                            console.log("La tarea conserva su estatus");
                         }
                     }
 

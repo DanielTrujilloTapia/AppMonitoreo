@@ -55,73 +55,110 @@ export default {
 
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
+                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Fallas');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
+                    console.log('tarea numero: ' + i);
                     const tarea = this.tasksUpdates[i];
                     const today = new Date();
                     const fecha_entrega = new Date(tarea.fecha_entega_servicio);
 
-                    if(fecha_entrega < today){
-
-                        if(tarea.idtareaestatus_falla === 2){
-                            console.log('NO ENTREGADA');
-                        }else{
-                            try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
+                    if(tarea.idtareaestatus_servicio === 1){
+                        console.log('Tarea COMPLETADA');
+                    }
+                    
+                    if (tarea.idtareaestatus_servicio === 4) {
+                        if (fecha_entrega < today) {
+                            try {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        id_tarea_falla: tarea.id_tarea_falla,
-                                        nom_tarea: tarea.nom_tarea,
-                                        descripcion_tarea: tarea.descripcion_tarea,
-                                        fecha_publicacion_falla: tarea.fecha_publicacion_falla,
-                                        fecha_entrega_falla: tarea.fecha_entrega_falla,
-                                        idusuario_admin: tarea.idusuario_admin,
-                                        idusuario_encargado: tarea.idusuario_encargado,
-                                        idusuario_ayudante: tarea.idusuario_ayudante,
-                                        idcatplanta: tarea.idcatplanta,
-                                        idtareaestatus_falla: 2,
-                                        idtareaprioridad: tarea.idtareaprioridad
+                                      id_tarea_falla: this.tarea.id_tarea_falla,
+                                      nom_tarea: this.tarea.nom_tarea,
+                                      descripcion_tarea: this.tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      idtareaestatus_falla: 2,
+                                      idusuario_admin: this.tarea.idusuario_admin,
+                                      idusuario_encargado: this.tarea.idusuario_encargado,
+                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
+                                      idcatplanta: this.tarea.idcatplanta,
+                                     
+                                      idtareaprioridad: this.tarea.idtareaprioridad
+                                    })
+                                });
+                                console.log('La tarea se cambió a no entregada');
+                            } catch (error) {
+                                console.error("Error en el cambio a no ENTREGADA");
+                            }
+                        } else {
+                            console.log('Tarea en PROCESO'); // La fecha de entrega aún no ha pasado
+                        }
+                    }
+
+                    if(fecha_entrega < today){
+
+                        if(tarea.idtareaestatus_servicio === 3){
+                            try{
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                      id_tarea_falla: this.tarea.id_tarea_falla,
+                                      nom_tarea: this.tarea.nom_tarea,
+                                      descripcion_tarea: this.tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      idtareaestatus_falla: 2,
+                                      idusuario_admin: this.tarea.idusuario_admin,
+                                      idusuario_encargado: this.tarea.idusuario_encargado,
+                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
+                                      idcatplanta: this.tarea.idcatplanta,
+                                     
+                                      idtareaprioridad: this.tarea.idtareaprioridad
                                     })
                                 });
                                 console.log('La tarea se cambio a no entregada');
                             } catch (error) {
                                 console.error("Error en el cambio a no ENTREGADA");
                             }
+                        }else{
+                            console.log("La tarea conserva su estatus");
                         }
                     }
 
                     if(fecha_entrega > today){
-                        if(tarea.idtareaestatus_falla === 3){
-                            console.log('PENDIENTE');
-                        } else {
+                        if(tarea.idtareaestatus_servicio === 2) {
                             try{
-                                await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
+                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        id_tarea_falla: tarea.id_tarea_falla,
-                                        nom_tarea: tarea.nom_tarea,
-                                        descripcion_tarea: tarea.descripcion_tarea,
-                                        fecha_publicacion_falla: tarea.fecha_publicacion_falla,
-                                        fecha_entrega_falla: tarea.fecha_entrega_falla,
-                                        idusuario_admin: tarea.idusuario_admin,
-                                        idusuario_encargado: tarea.idusuario_encargado,
-                                        idusuario_ayudante: tarea.idusuario_ayudante,
-                                        idcatplanta: tarea.idcatplanta,
-                                        idtareaestatus_falla: 3,
-                                        idtareaprioridad: tarea.idtareaprioridad
-
+                                      id_tarea_falla: this.tarea.id_tarea_falla,
+                                      nom_tarea: this.tarea.nom_tarea,
+                                      descripcion_tarea: this.tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      idtareaestatus_falla: 3,
+                                      idusuario_admin: this.tarea.idusuario_admin,
+                                      idusuario_encargado: this.tarea.idusuario_encargado,
+                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
+                                      idcatplanta: this.tarea.idcatplanta,
+                                     
+                                      idtareaprioridad: this.tarea.idtareaprioridad
                                     })
                                 });
                                 console.log('La tarea se cambio a pendiente');
                             } catch (error) {
                                 console.error("Error en el cambio a PENDIENTE");
                             }
+                        }else{
+                            console.log("La tarea conserva su estatus");
                         }
                     }
+
                 }
             } catch (error) {
               console.error("Error en la consulta de Tareas:", error);
