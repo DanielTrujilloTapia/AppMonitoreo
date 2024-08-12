@@ -14,6 +14,8 @@ import AutomatedTasksPage from '../views/AutomatedTasksPage.vue'
 import MonitoringPage from '../views/MonitoringPage.vue'
 import UsersPage from '../views/UsersPage.vue'
 import LocPage from '../views/LocalitationPage.vue'
+import AllTask from '../views/ViewAllTasksPage.vue'
+import UpdateTask from '../views/ViewUpdatetaskPage.vue'
 
 const routes = [
   {
@@ -29,6 +31,16 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: HomePage
+  },
+  {
+    path: '/alltask',
+    name: 'alltask',
+    component: AllTask 
+  },
+  {
+    path: '/updatetask',
+    name: 'updatetask',
+    component: UpdateTask
   },
   {
     path: '/service',

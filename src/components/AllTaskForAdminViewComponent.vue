@@ -5,81 +5,17 @@
         </ion-header>
 
         <ion-content>
-            
-            <ion-card style="margin: 0px 0px 2px 0px;">
-                <ion-card>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col>
-                                <div style="display: flex; justify-content: space-between; padding-left: 15px; padding-right: 15px;">
-                                    <p class="title-size">Servicios SITEM</p>
-                                    <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToCreateServiceform()">agregar servicio</p>
-                                </div>
-                            </ion-col>
-                        </ion-row>
-    
-                        <ion-row>
-                            <ion-col>
-                                <ion-input  label="Buscar:" fill="solid" v-model="searchName" @ionInput="filterServices"></ion-input>
-                                <ion-item class="item-click-custom" @click="openModal(service)" lines="none" v-for="service in paginatedServices" :key="service.id_servicio" >
-                                    <p class="text-size">{{ service.nom_servicio }}</p>
-                                </ion-item>
-    
-                                <ion-modal :is-open="showModal" @ionModalDidDismiss="dismissModal" :initial-breakpoint="1" :breakpoints="[0, 1]" >
-                                    <ion-content>
-                                        <ion-card style="margin: 0px;">
-                                            <ion-card-header>
-                                                <p style="text-align: center; font-size: 15px; color: var(--ion-title-color)">{{selectedService.nom_servicio}}</p>
-                                            </ion-card-header>
-                                            <ion-card-content>
-                                                <p  style="text-align: justify; font-size: 14px; color: var(--ion-subtitle-color)">{{ selectedService.descripcion_servicio }}</p>
-                                            </ion-card-content>
-                                        </ion-card>
-                                    </ion-content>
-                                </ion-modal>
-    
-                                
-                                <ion-row>
-                                    <ion-col style="display: flex; justify-content: center;">
-                                        <ion-buttons>
-                                            <ion-button @click="prevPage" :disabled="currentPage === 1">
-                                                Anterior
-                                            </ion-button>
-                                        </ion-buttons>
-                                    </ion-col>
-                                    
-                                    <ion-col style="display: flex; justify-content: center;">
-                                        <ion-buttons>
-                                            <ion-button @click="nextPage" :disabled="currentPage === totalPages">
-                                                Siguiente
-                                            </ion-button>
-                                        </ion-buttons>
-                                    </ion-col>
-                                </ion-row>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card>
-            </ion-card>
-
             <ion-card style="margin: 0px;">
 
                 <ion-card-header>
                     <div style="display: flex; justify-content: space-between;">
                         <p class="title-size">Apartado Tareas de Servicios</p>
-                        <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToServiceform">nueva tarea</p>
-                    </div>
-
-                    <div>
-                        <p class="subtitle-size">Recuerda que al crear una tarea puede ser Modificada o se puede Eliminar en caso de algun error</p>
-                        <p class="button-custom" @click.prevent="navigateToViewTasks">ver todas mis tareas?</p>
-                        <p class="button-custom" @click.prevent="navigateToAlltask">Administracion de tareas</p>
+                        <ion-button @click.prevent="navigateToService">volver</ion-button>
                     </div>
                 </ion-card-header>
 
                 <ion-card-content style="margin: 0px; padding: 0px;">
-                    <card-tareas-reutilizable-component :title="'Pendientes'" :Status="3"/>
-                    <card-tareas-reutilizable-component :title="'No Completada'" :Status="2"/>
+                    <card-tareas-reutilizable-component/>
                 </ion-card-content>
             </ion-card>
 
@@ -91,7 +27,7 @@
 <script>
 import { IonPage, IonHeader, IonContent, IonCard, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonItem, IonInput, IonModal, IonCardHeader, IonCardContent, } from '@ionic/vue'
 import ToolbarComponent from '../components/ToolbarComponent.vue'
-import CardTareasReutilizableComponent from '../components/CardTareasReutilizableComponent.vue'
+import CardTareasReutilizableComponent from '../components/AllTaskForAdminComponent.vue'
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
 import { useIonRouter } from '@ionic/vue';
 import { ref } from 'vue';
@@ -138,6 +74,9 @@ export default {
         const navigateToServiceform = () => {
             ionRouter.push('/serviceForm');
         }
+        const navigateToService = () => {
+            ionRouter.push('/service');
+        }
         const navigateToAlltask = () => {
             ionRouter.push('/alltask');
         }
@@ -165,6 +104,7 @@ export default {
             navigateToCreateServiceform,
             navigateToViewTasks,
             navigateToAlltask,
+            navigateToService,
             addOutline,
             personCircle,
             addSharp,
