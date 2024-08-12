@@ -125,10 +125,10 @@ export default {
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
                    // fetch('https://localhost:7296/api/Cat_Servicios'),
-                    fetch('https://192.168.1.69:7296/api/Cat_Plantas'),
-                    fetch('https://192.168.1.69:7296/api/Usu_Usuarios'),
-                    fetch('https://192.168.1.69:7296/api/Tareas_Prioridades'),
-                    fetch('https://192.168.1.69:7296/api/Tareas_Estatus')
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Plantas'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Usuarios'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Prioridades'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Estatus')
                 ]);
 
               //  this.services = await responseServices.json();
@@ -244,7 +244,7 @@ export default {
                 if (this.lon >= reslong && this.lon <= sumalong) {
 
                     try {
-                        await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                        await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -268,7 +268,7 @@ export default {
                     
                     console.log("TAREA INICIADA");
                     try {
-                        await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Fallas', {
+                        await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Fallas', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -295,12 +295,12 @@ export default {
             const fechaActual = new Date();
             const fechaFormateada = fechaActual.toISOString();
         
-            const response = await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Fallas');
+            const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Fallas');
             const tablamonitoreo = await response.json();
             const registromonitoreo = tablamonitoreo.filter(tmon => tmon.id_monitoreo_servicio === this.id_monitoreo);
             
             try {
-                await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Fallas', {
+                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Fallas', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -315,7 +315,7 @@ export default {
             }
             
             try {
-                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -343,7 +343,7 @@ export default {
         async consulta_monitoreo(){
             //Consulta en monitoreo para poder finalizar la tarea
             try {
-                const response = await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Fallas');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Fallas');
                 const tablamonitoreo = await response.json();
                 const registromonitoreo = tablamonitoreo.filter(tmon => tmon.idtareafalla === this.tarea.id_tarea_falla);
                 console.log("prueba id monitoreo",registromonitoreo[0].id_monitoreo_falla);

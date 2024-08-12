@@ -55,7 +55,7 @@ export default {
 
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -68,7 +68,7 @@ export default {
                     if (tarea.idtareaestatus_servicio === 4) {
                         if (fecha_entrega < today) {
                             try {
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -98,7 +98,7 @@ export default {
 
                         if(tarea.idtareaestatus_servicio === 3){
                             try{
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -127,7 +127,7 @@ export default {
                     if(fecha_entrega > today){
                         if(tarea.idtareaestatus_servicio === 2) {
                             try{
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -161,7 +161,7 @@ export default {
 
         async GetTask() {
             try {
-                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios');
                 const tasks = await response.json();
                 const tasksss = tasks.filter(task => task.idtareaestatus_servicio === this.Status);
 

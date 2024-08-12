@@ -135,11 +135,11 @@ export default {
             // Fetch data from APIs
             try {
                 const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
-                    fetch('https://177.17.10.11:7296/api/Cat_Servicios'),
-                    fetch('https://177.17.10.11:7296/api/Cat_Plantas'),
-                    fetch('https://177.17.10.11:7296/api/Usu_Usuarios'),
-                    fetch('https://177.17.10.11:7296/api/Tareas_Prioridades'),
-                    fetch('https://177.17.10.11:7296/api/Tareas_Estatus')
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Servicios'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Plantas'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Usuarios'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Prioridades'),
+                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Estatus')
                 ]);
 
                 this.services = await responseServices.json();
@@ -186,7 +186,7 @@ export default {
 
         async atualización(){
             try {
-                        await fetch('https://177.17.10.11:7296/api/Tareas_Servicios', {
+                        await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({

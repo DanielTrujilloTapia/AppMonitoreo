@@ -98,7 +98,7 @@ export default {
                 console.log(this.descripcionService);
 
                 try {
-                    const createdService = await fetch('https://192.168.1.69:7296/api/Cat_Servicios', {
+                    const createdService = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Servicios', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

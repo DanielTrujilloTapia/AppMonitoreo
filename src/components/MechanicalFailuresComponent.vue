@@ -114,7 +114,7 @@ export default {
       async GetServices() {
             /* Consulta SERVICIOS */
             try {
-                const responseServices = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
+                const responseServices = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas');
                 this.services = await responseServices.json();
                 this.filteredServices = this.services;
             } catch (error) {

@@ -324,7 +324,7 @@ export default {
 
             /* Consulta USUARIOS */
             try {
-                const responseUsers = await fetch('https://192.168.1.69:7296/api/Usu_Usuarios');
+                const responseUsers = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Usuarios');
                 this.users = await responseUsers.json();
                 this.filteredUsersEncargado = this.users.filter(user => user.idusupuestousuario === 1); // Filtrar aquí para usuarios con puesto de Encargado
                 this.filteredUsersAyudante = this.users.filter(user => user.idusupuestousuario === 2); // Filtrar aquí para usuarios con puesto de ayudante
@@ -334,7 +334,7 @@ export default {
 
             /* Consulta CAT PRIORIDAD */
             try {
-                const responsePriorities = await fetch('https://192.168.1.69:7296/api/Tareas_Prioridades');
+                const responsePriorities = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Prioridades');
                 this.priorities = await responsePriorities.json();
             } catch (error) {
                 console.error("Error en la consulta de los Proridades");
@@ -342,7 +342,7 @@ export default {
 
             /* Consulta a PLANTAS */
             try {
-                const responsePlants = await fetch('https://192.168.1.69:7296/api/Cat_Plantas');
+                const responsePlants = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Plantas');
                 this.plants = await responsePlants.json();
                 this.filteredPlants = this.plants;
             } catch (error) {
@@ -507,7 +507,7 @@ export default {
                 console.log('ID ESTATUS: ', 3);
 
                 try {
-                    const createdTaskFailures = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas', {
+                    const createdTaskFailures = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

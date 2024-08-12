@@ -89,28 +89,28 @@
     methods: {
       async Get_Datas() {
         try {
-          const responseUsers = await fetch('https://192.168.1.69:7296/api/Usu_Usuarios');
+          const responseUsers = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Usuarios');
           this.users = await responseUsers.json();
         } catch (error) {
           console.error("Error en la consulta de los USUARIOS");
         }
   
         try {
-          const responseEstados = await fetch('https://192.168.1.69:7296/api/Usu_Estados_Usuarios');
+          const responseEstados = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Estados_Usuarios');
           this.estados = await responseEstados.json();
         } catch (error) {
           console.error("Error en la consulta de los ESTADOS");
         }
   
         try {
-          const responseTipos = await fetch('https://192.168.1.69:7296/api/Usu_Tipos_Usuarios');
+          const responseTipos = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Tipos_Usuarios');
           this.tipos = await responseTipos.json();
         } catch (error) {
           console.error("Error en la consulta de los TIPOS");
         }
   
         try {
-          const responsePuestos = await fetch('https://192.168.1.69:7296/api/Usu_Puestos_Usuarios');
+          const responsePuestos = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Puestos_Usuarios');
           this.puestos = await responsePuestos.json();
         } catch (error) {
           console.error("Error en la consulta de los PUESTOS");

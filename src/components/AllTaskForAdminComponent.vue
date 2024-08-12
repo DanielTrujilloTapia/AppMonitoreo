@@ -52,7 +52,7 @@ export default {
     methods: {
         async GetTask() {
             try {
-                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Servicios');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios');
                 const tasks = await response.json();
                 this.tasks = tasks;
             } catch (error) {
@@ -71,16 +71,16 @@ export default {
 
     if (confirmDelete) {
         console.log('Eliminar tarea:', taskId);
-            const response = await fetch('https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios');
+            const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Servicios');
             const tablamonitoreo = await response.json();
             const registromonitoreo = tablamonitoreo.filter(tmon => tmon.idtareaservicio === taskId);
 
-            const response2 = await fetch('https://177.17.10.11:7296/api/Cat_Img_Tarea');
+            const response2 = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Img_Tarea');
             const tablaimg = await response2.json();
             const registroimg = tablaimg.filter(tmon => tmon.idserviciotarea === taskId);
 
             try {
-            await fetch(`https://177.17.10.11:7296/api/Cat_Img_Tarea/${registroimg.id_img}`, {
+            await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Img_Tarea/${registroimg.id_img}`, {
                 method: 'DELETE',
             }).then(() => {
                 console.log("Eliminada la imagen correctamente");
@@ -92,7 +92,7 @@ export default {
         }
 
         try {
-            await fetch(`https://177.17.10.11:7296/api/Monitoreo_Tareas_Servicios/${registromonitoreo.id_monitoreo_servicio}`, {
+            await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Servicios/${registromonitoreo.id_monitoreo_servicio}`, {
                 method: 'DELETE',
             }).then(() => {
                 console.log("Eliminada el registro en monitoreo correctamente");
@@ -104,7 +104,7 @@ export default {
         }
 
         try {
-            await fetch(`https://177.17.10.11:7296/api/Tareas_Servicios/${taskId}`, {
+            await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios/${taskId}`, {
                 method: 'DELETE',
             }).then(() => {
                 this.GetTask();

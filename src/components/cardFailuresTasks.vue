@@ -55,7 +55,7 @@ export default {
 
         async UpdateStateTask(){
             try {
-                const response = await fetch('https://177.17.10.11:7296/api/Tareas_Fallas');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas');
                 this.tasksUpdates = await response.json();
 
                 for (let i = 0; i < this.tasksUpdates.length; i++) {
@@ -71,7 +71,7 @@ export default {
                     if (tarea.idtareaestatus_servicio === 4) {
                         if (fecha_entrega < today) {
                             try {
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -102,7 +102,7 @@ export default {
 
                         if(tarea.idtareaestatus_servicio === 3){
                             try{
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -132,7 +132,7 @@ export default {
                     if(fecha_entrega > today){
                         if(tarea.idtareaestatus_servicio === 2) {
                             try{
-                                await fetch('https://177.17.10.11:7296/api/Tareas_Fallas', {
+                                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -167,7 +167,7 @@ export default {
 
         async GetTask() {
             try {
-                const response = await fetch('https://192.168.1.69:7296/api/Tareas_Fallas');
+                const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas');
                 const tasks = await response.json();
                 this.tasks = tasks.filter(task => task.idtareaestatus_falla === this.Status);
             } catch (error) {
@@ -175,7 +175,7 @@ export default {
             }
 
             try {
-                const responsePriorities = await fetch('https://192.168.1.69:7296/api/Tareas_Prioridades');
+                const responsePriorities = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Prioridades');
                 this.priorities = await responsePriorities.json();
             } catch (error) {
               console.error("Error en la consulta de Tareas:", error);
