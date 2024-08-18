@@ -73,7 +73,7 @@
                     <div>
                         <p class="subtitle-size">Recuerda que al crear una tarea puede ser Modificada o se puede Eliminar en caso de algun error</p>
                         <p class="button-custom" @click.prevent="navigateToViewTasks">ver todas mis tareas?</p>
-                        <p class="button-custom" @click.prevent="navigateToAlltask">Administracion de tareas</p>
+                        <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToAlltask">Administracion de tareas</p>
                     </div>
                 </ion-card-header>
 

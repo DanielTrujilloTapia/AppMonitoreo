@@ -3,19 +3,17 @@
         <ion-content>
             <ion-card style="margin: 0px;">
                 <ion-card-header>
-
                     <ion-row>
                         <h1>Actualización de tarea</h1>
                         <ion-col style="display: flex; justify-content: end;">
                             <p @click.prevent="navigateBack" style="cursor: pointer;">Cerrar</p>
                         </ion-col>
                     </ion-row>
-
                 </ion-card-header>
-    
+
                 <ion-card-content>
                     <ion-item lines="none">
-                        <ion-input label="Nombre tarea" label-placement="floating" fill="outline" placeholder="Enter text" v-model="tarea.nom_tarea_servicio"></ion-input>
+                        <ion-input v-model="icertarea" label="Nombre tarea" label-placement="floating" fill="outline"></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-select v-model="selectedServices" placeholder="Selecciona un servicio">
@@ -33,8 +31,8 @@
                     </ion-item>
                     <ion-item>
                         <ion-select v-model="selectedUserAyu" placeholder="Selecciona un usuario ayudante">
-                            <ion-select-option v-for="usuenc in usuariosayudantes" :key="usuenc.id_usuario" :value="usuenc.id_usuario">
-                                {{ usuenc.nom_usuario }}
+                            <ion-select-option v-for="usuayu in usuariosayudantes" :key="usuayu.id_usuario" :value="usuayu.id_usuario">
+                                {{ usuayu.nom_usuario }}
                             </ion-select-option>
                         </ion-select>
                     </ion-item>
@@ -53,10 +51,10 @@
                         </ion-select>
                     </ion-item>
                     <ion-item>
-                        <ion-datetime display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" v-model="tarea.fecha_publicacion_servicio" placeholder="Selecciona una fecha"></ion-datetime>
+                        <ion-datetime display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" v-model="slectfechapublicacion" placeholder="Selecciona una fecha"></ion-datetime>
                     </ion-item>
                     <ion-item>
-                        <ion-datetime display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" v-model="tarea.fecha_entega_servicio" placeholder="Selecciona una fecha"></ion-datetime>
+                        <ion-datetime display-format="YYYY-MM-DD" picker-format="YYYY-MM-DD" v-model="selectfechafinalizacion" placeholder="Selecciona una fecha"></ion-datetime>
                     </ion-item>
                     <ion-item>
                         <ion-select v-model="selectedStatus" placeholder="Selecciona un Estatus">
@@ -65,7 +63,7 @@
                             </ion-select-option>
                         </ion-select>
                     </ion-item>
-                   <ion-button @click.prevent="atualización">Actualizar</ion-button>
+                    <ion-button @click.prevent="atualización">Actualizar</ion-button>
                 </ion-card-content>
             </ion-card>
         </ion-content>
@@ -73,7 +71,7 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonRow, IonCol, IonItem, IonLabel, IonButton } from '@ionic/vue';
+import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonRow, IonCol, IonItem, IonLabel, IonButton, IonInput, IonSelect, IonDatetime, IonSelectOption } from '@ionic/vue';
 import { useIonRouter } from '@ionic/vue';
 
 export default {
@@ -88,28 +86,36 @@ export default {
         IonCol,
         IonItem,
         IonLabel,
-        IonButton
+        IonButton,
+        IonInput,
+        IonSelect,
+        IonDatetime,
+        IonSelectOption
     },
     data() {
         return {
-            tarea: null,
+            tarea: {
+                fecha_publicacion_servicio: '',
+                fecha_entega_servicio: ''
+            },
             services: [],
             plants: [],
             users: [],
-            priorities: [],
             status: [],
-            usuariosadmin:[],
-            usuariosencargados:[],
-            usuariosayudantes:[],
-
-            selectedPlant: null,
-            selectedServices:null,
-            selectedUserEnc:null,
-            selectedUserAyu:null,
-            selectedStatus:null,
-            selectedPriority:null,
-
-        }
+            usuariosadmin: [],
+            usuariosencargados: [],
+            usuariosayudantes: [],
+            icertarea: '',
+            selectedPlant: '',
+            selectedServices: '',
+            selectedUserEnc: '',
+            selectedUserAyu: '',
+            selectedUserAdmin: '',
+            selectedStatus: '',
+            selectedPriority: '',
+            slectfechapublicacion:'',
+            selectfechafinalizacion:'',
+        };
     },
     setup() {
         const ionRouter = useIonRouter();
@@ -119,94 +125,84 @@ export default {
         };
         return {
             navigateBack
-        }
+        };
     },
     methods: {
         async GetDetailsTask() {
-            // Obtener la tarea desde localStorage
             const taskData = localStorage.getItem('id-tarea-s');
-            this.tarea = taskData ? JSON.parse(taskData) : null;
+            this.tarea = taskData ? JSON.parse(taskData) : {
+                fecha_publicacion_servicio: '',
+                fecha_entega_servicio: ''
+            };
 
-            if (!this.tarea) {
-                console.log('No se encontró ninguna tarea en localStorage');
-                return;
-            }
-
-            // Fetch data from APIs
             try {
-                const [responseServices, responsePlants, responseUsers, responsePriorities, responseStatus] = await Promise.all([
+                const [responseServices, responsePlants, responseUsers, responseStatus] = await Promise.all([
                     fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Servicios'),
                     fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Plantas'),
                     fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Usu_Usuarios'),
-                    fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Prioridades'),
                     fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Estatus')
                 ]);
 
                 this.services = await responseServices.json();
                 this.plants = await responsePlants.json();
                 this.users = await responseUsers.json();
-                this.priorities = await responsePriorities.json();
                 this.status = await responseStatus.json();
+                
+                try {
+                    const response = await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios/${this.tarea}`);
+                    const tasks = await response.json();
+                    this.registrotarea = tasks;
+                    console.log(this.registrotarea);
 
-                //mapeo usuarios
-                this.usuariosencargados = this.users.find(user => user.idusutipousuario === 2);
-                this.usuariosayudantes = this.users.find(user => user.idusutipousuario === 3);
-                this.usuariosadmin = this.users.find(user => user.idusutipousuario === 1);
+                    // Mapear valores
+                    this.icertarea = this.registrotarea.nom_tarea_servicio || '';
+                    this.selectedServices = this.registrotarea.idcatservicios || '';
+                    this.selectedUserEnc = this.registrotarea.idusuusuario_encargado || '';
+                    this.selectedUserAyu = this.registrotarea.idusuusuario_ayudante || '';
+                    this.selectedUserAdmin = this.registrotarea.idusuusuario_admin || '';
+                    this.selectedPlant = this.registrotarea.idcatplantas || '';
+                    this.selectedStatus = this.registrotarea.idtareaestatus_servicio || '';
+                    this.selectedPriority = this.registrotarea.idtareasprioridad || '';
+                    this.slectfechapublicacion = this.registrotarea.fecha_publicacion_servicio || '';
+                    this.selectfechafinalizacion = this.registrotarea.fecha_entega_servicio || '';
 
-                // Map the task details to the corresponding entities
-                this.tarea.service = this.services.find(service => service.id_servicio === this.tarea.idcatservicios);
-                this.tarea.plants = this.plants.find(plant => plant.id_planta === this.tarea.idcatplantas);
-                this.tarea.userEncargado = this.users.find(user => user.id_usuario === this.tarea.idusuusuario_encargado);
-                this.tarea.userAyudante = this.users.find(user => user.id_usuario === this.tarea.idusuusuario_ayudante);
-                this.tarea.userAdmin = this.users.find(user => user.id_usuario === this.tarea.idusuusuario_admin);
-                this.tarea.status = this.status.find(status => status.id_estatus === this.tarea.idtareaestatus_servicio);
-                this.tarea.priority = this.priorities.find(priority => priority.id_prioridad === this.tarea.idtareasprioridad);
+                } catch (error) {
+                    console.error("Error en la consulta de Tareas:", error);
+                }
 
-                this.selectedServices = this.tarea.service.id_servicio;
-                this.selectedUserEnc = this.tarea.userEncargado.id_usuario;
-                this.selectedUserAyu = this.tarea.userAyudante.id_usuario;
-                this.selectedUserAdmin = this.tarea.userAdmin.id_usuario;
-                this.selectedPlant = this.tarea.plants.id_planta;
-                this.selectedStatus = this.tarea.status.id_estatus;
-                this.selectedPriority = this.tarea.priority.id_prioridad;
+                this.usuariosencargados = this.users.filter(user => user.idusupuestousuario === 1);
+                this.usuariosayudantes = this.users.filter(user => user.idusupuestousuario === 2);
+                this.usuariosadmin = this.users.filter(user => user.idusutipousuario === 1);
 
             } catch (error) {
                 console.log('Sucedió un error:', error);
             }
         },
 
-        
-        formatDate(dateString) {
-            const date = new Date(dateString);
-            const day = date.getDate();
-            const month = date.toLocaleString('default', { month: 'short' });
-            const year = date.getFullYear();
-            return `${day} de ${month} de ${year}`;
-        },
-
-        async atualización(){
+        async atualización() {
             try {
-                        await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
-                                    method: 'PUT',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                    id_tarea_servicio: this.tarea.id_tarea_servicio,
-                                      nom_tarea_servicio: this.tarea.nom_tarea_servicio,
-                                      idcatservicios: this.selectedServices,
-                                      idusuusuario_encargado: this.selectedUserEnc,
-                                      idusuusuario_ayudante: this.selectedUserAyu,
-                                      idusuusuario_admin: this.selectedUserAdmin,
-                                      idcatplantas: this.selectedPlant,
-                                      fecha_publicacion_servicio: this.tarea.fecha_publicacion_servicio,
-                                      fecha_entega_servicio: this.tarea.fecha_entega_servicio,
-                                      idtareaestatus_servicio: this.selectedStatus,
-                                      idtareasprioridad: this.selectedPriority
-                                    })
-                                });
-                    } catch (error) {
-                        console.log("NO se realizo el registro en tarea servicios", error);
-                    }
-        },
+                await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id_tarea_servicio: this.tarea,
+                        nom_tarea_servicio: this.icertarea,
+                        idcatservicios: this.selectedServices,
+                        idusuusuario_encargado: this.selectedUserEnc,
+                        idusuusuario_ayudante: this.selectedUserAyu,
+                        idusuusuario_admin: this.selectedUserAdmin,
+                        idcatplantas: this.selectedPlant,
+                        fecha_publicacion_servicio: this.slectfechapublicacion,
+                        fecha_entega_servicio: this.selectfechafinalizacion,
+                        idtareaestatus_servicio: this.selectedStatus,
+                        idtareasprioridad: this.selectedPriority
+                    })
+                });
+                console.log("Actualizado correctamente");
+            } catch (error) {
+                console.log("NO se realizó la actualización en tareas servicios", error);
+            }
+        }
     },
     created() {
         this.GetDetailsTask();
@@ -214,46 +210,3 @@ export default {
 }
 </script>
 
-
-<style scoped>
-
-.title-size{
-    font-size: 15px;
-    color: var(--ion-title-color);
-    font-weight: bold;
-    text-align: justify;
-}
-
-.subtitle-size{
-    font-size: 14px;
-    color: var(--ion-subtitle-color);
-    text-align: justify;
-}
-
-.text-size{
-    font-size: 13px;
-    text-align: justify;
-}
-
-p {
-    margin: 0;
-    padding: 0;
-}
-
-ion-item {
-    --padding-start: 0px;
-    --inner-padding-end: 0px;
-    --inner-padding-start: 0px;
-    --padding-end: 0px;
-    margin: 10px 0;
-}
-
-ion-label {
-    font-weight: bold;
-}
-
-p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-</style>

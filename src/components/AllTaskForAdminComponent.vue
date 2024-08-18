@@ -41,7 +41,7 @@ export default {
             ionRouter.push('/viewTasks');
         }
         const navigateToViewupdatetask = () => {
-            ionRouter.push('/updatetaskservice');
+            ionRouter.push('/updatetask');
         }
         
         return {
@@ -74,11 +74,12 @@ export default {
             const response = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Servicios');
             const tablamonitoreo = await response.json();
             const registromonitoreo = tablamonitoreo.filter(tmon => tmon.idtareaservicio === taskId);
-
+            
+            /*
             const response2 = await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Img_Tarea');
             const tablaimg = await response2.json();
             const registroimg = tablaimg.filter(tmon => tmon.idserviciotarea === taskId);
-
+        
             try {
             await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Cat_Img_Tarea/${registroimg.id_img}`, {
                 method: 'DELETE',
@@ -90,8 +91,11 @@ export default {
         } catch (error) {
             console.log("Error con la eliminación");
         }
+        */
 
-        try {
+        if(registromonitoreo.length>0){
+            console.log("si existe el moitoreo para la tarea", taskId);
+            try {
             await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Monitoreo_Tareas_Servicios/${registromonitoreo.id_monitoreo_servicio}`, {
                 method: 'DELETE',
             }).then(() => {
@@ -102,19 +106,26 @@ export default {
         } catch (error) {
             console.log("Error con la eliminación");
         }
+        }else{
+            console.log("no existe el monitoreo para la tarea", taskId);
+        }
 
         try {
-            await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios/${taskId}`, {
-                method: 'DELETE',
-            }).then(() => {
-                this.GetTask();
-                console.log("Eliminada la tarea correctamente");
-            }).catch(error => {
-                console.error('Error eliminando la tarea:', error);
-            });
-        } catch (error) {
-            console.log("Error con la eliminación");
+        const response = await fetch(`https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Servicios?id=${taskId}`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la eliminación: ${response.statusText}`);
         }
+
+        // Llama a la función para obtener las tareas actualizadas
+        await this.GetTask();
+
+        console.log("Eliminada la tarea correctamente");
+    } catch (error) {
+        console.error('Error eliminando la tarea:', error);
+    }
     } else {
         console.log("Eliminación cancelada");
     }
