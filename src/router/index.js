@@ -16,6 +16,7 @@ import UsersPage from '../views/UsersPage.vue'
 import LocPage from '../views/LocalitationPage.vue'
 import AllTask from '../views/ViewAllTasksPage.vue'
 import UpdateTask from '../views/ViewUpdatetaskPage.vue'
+import UpdateFailTask from '../views/ViewUpdatefiltasksPage.vue'
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     path: '/updatetask',
     name: 'updatetask',
     component: UpdateTask
+  },
+  {
+    path: '/updatefailtask',
+    name: 'updatefailtask',
+    component: UpdateFailTask
   },
   {
     path: '/service',

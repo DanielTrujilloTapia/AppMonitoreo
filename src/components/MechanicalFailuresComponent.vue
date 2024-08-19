@@ -18,6 +18,7 @@
                     <div>
                         <p class="subtitle-size">Recuerda que al crear una falla puede ser Modificada o se puede convertirse en un servicio</p>
                         <p class="button-custom" @click.prevent="navigateToViewTasks">Ver todas las fallas?</p>
+                        <p v-if="permisosAdmin" class="button-custom" @click.prevent="navigateToAlltask">Administracion de tareas</p>
                     </div>
                 </ion-card-header>
 
@@ -38,6 +39,7 @@ import ToolbarComponent from '../components/ToolbarComponent.vue'
 import CardTareasReutilizableComponent from '../components/cardFailuresTasks.vue'
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
 import { useIonRouter } from '@ionic/vue';
+import { ref } from 'vue';
 
 export default {
     name: 'ServiceTasksComponent',
@@ -80,6 +82,10 @@ export default {
             ionRouter.push('/failuresForm');
         }
 
+        const navigateToAlltask = () => {
+            ionRouter.push('/alltask');
+        }
+
         const navigateToCreateServiceform = () => {
             ionRouter.push('/createService');
         }
@@ -87,14 +93,26 @@ export default {
         const navigateToViewTasks = () => {
             ionRouter.push('/viewTasksfailures');
         }
+        const TypeUserPermissions = localStorage.getItem('User-login');
+        const parsedPermissions = JSON.parse(TypeUserPermissions);
+        const permisosAdmin = ref(null);
+        
+        if(parsedPermissions.idusutipousuario === 1){
+            permisosAdmin.value=true;
+        }else{
+            permisosAdmin.value=false
+        }
+       
 
         return{
             navigateToServiceform,
             navigateToCreateServiceform,
             navigateToViewTasks,
+            navigateToAlltask,
             addOutline,
             personCircle,
             addSharp,
+            permisosAdmin,
         }
     },
     computed: {

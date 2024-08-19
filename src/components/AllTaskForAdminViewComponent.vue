@@ -9,8 +9,7 @@
 
                 <ion-card-header>
                     <div style="display: flex; justify-content: space-between;">
-                        <p class="title-size">Apartado Tareas de Servicios</p>
-                        <ion-button @click.prevent="navigateToService">volver</ion-button>
+                        <ion-button @click.prevent="goBack">volver</ion-button>
                     </div>
                 </ion-card-header>
 
@@ -31,6 +30,7 @@ import CardTareasReutilizableComponent from '../components/AllTaskForAdminCompon
 import { addOutline, personCircle, addSharp } from 'ionicons/icons'
 import { useIonRouter } from '@ionic/vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'ServiceTasksComponent',
@@ -68,7 +68,8 @@ export default {
         }
     },
     setup() {
-        
+        const router = useRouter();
+
         const ionRouter = useIonRouter();
         
         const navigateToServiceform = () => {
@@ -77,6 +78,10 @@ export default {
         const navigateToService = () => {
             ionRouter.push('/service');
         }
+        const goBack = () => {
+    
+    router.back();
+};
         const navigateToAlltask = () => {
             ionRouter.push('/alltask');
         }
@@ -105,6 +110,7 @@ export default {
             navigateToViewTasks,
             navigateToAlltask,
             navigateToService,
+            goBack,
             addOutline,
             personCircle,
             addSharp,

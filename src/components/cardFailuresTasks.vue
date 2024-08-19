@@ -62,31 +62,32 @@ export default {
                     console.log('tarea numero: ' + i);
                     const tarea = this.tasksUpdates[i];
                     const today = new Date();
-                    const fecha_entrega = new Date(tarea.fecha_entega_servicio);
+                    const fecha_entrega = new Date(tarea.fecha_entrega_falla);
 
-                    if(tarea.idtareaestatus_servicio === 1){
+                    if(tarea.idtareaestatus_falla === 1){
                         console.log('Tarea COMPLETADA');
                     }
+                    console.log("id",tarea.id_tarea_falla);
                     
-                    if (tarea.idtareaestatus_servicio === 4) {
+                    if (tarea.idtareaestatus_falla === 4) {
                         if (fecha_entrega < today) {
                             try {
                                 await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                      id_tarea_falla: this.tarea.id_tarea_falla,
-                                      nom_tarea: this.tarea.nom_tarea,
-                                      descripcion_tarea: this.tarea.descripcion_tarea,
-                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
-                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      id_tarea_falla: tarea.id_tarea_falla,
+                                      nom_tarea: tarea.nom_tarea,
+                                      descripcion_tarea: tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: tarea.fecha_entrega_falla,
                                       idtareaestatus_falla: 2,
-                                      idusuario_admin: this.tarea.idusuario_admin,
-                                      idusuario_encargado: this.tarea.idusuario_encargado,
-                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
-                                      idcatplanta: this.tarea.idcatplanta,
+                                      idusuario_admin: tarea.idusuario_admin,
+                                      idusuario_encargado: tarea.idusuario_encargado,
+                                      idusuario_ayudante: tarea.idusuario_ayudante,
+                                      idcatplanta: tarea.idcatplanta,
                                      
-                                      idtareaprioridad: this.tarea.idtareaprioridad
+                                      idtareaprioridad: tarea.idtareaprioridad
                                     })
                                 });
                                 console.log('La tarea se cambió a no entregada');
@@ -100,24 +101,24 @@ export default {
 
                     if(fecha_entrega < today){
 
-                        if(tarea.idtareaestatus_servicio === 3){
+                        if(tarea.idtareaestatus_falla === 3){
                             try{
                                 await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                      id_tarea_falla: this.tarea.id_tarea_falla,
-                                      nom_tarea: this.tarea.nom_tarea,
-                                      descripcion_tarea: this.tarea.descripcion_tarea,
-                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
-                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      id_tarea_falla: tarea.id_tarea_falla,
+                                      nom_tarea: tarea.nom_tarea,
+                                      descripcion_tarea: tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: tarea.fecha_entrega_falla,
                                       idtareaestatus_falla: 2,
-                                      idusuario_admin: this.tarea.idusuario_admin,
-                                      idusuario_encargado: this.tarea.idusuario_encargado,
-                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
-                                      idcatplanta: this.tarea.idcatplanta,
+                                      idusuario_admin: tarea.idusuario_admin,
+                                      idusuario_encargado: tarea.idusuario_encargado,
+                                      idusuario_ayudante: tarea.idusuario_ayudante,
+                                      idcatplanta: tarea.idcatplanta,
                                      
-                                      idtareaprioridad: this.tarea.idtareaprioridad
+                                      idtareaprioridad: tarea.idtareaprioridad
                                     })
                                 });
                                 console.log('La tarea se cambio a no entregada');
@@ -130,24 +131,24 @@ export default {
                     }
 
                     if(fecha_entrega > today){
-                        if(tarea.idtareaestatus_servicio === 2) {
+                        if(tarea.idtareaestatus_falla === 2) {
                             try{
                                 await fetch('https://sitemapiapp20240812132426.azurewebsites.net/api/Tareas_Fallas', {
                                     method: 'PUT',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                      id_tarea_falla: this.tarea.id_tarea_falla,
-                                      nom_tarea: this.tarea.nom_tarea,
-                                      descripcion_tarea: this.tarea.descripcion_tarea,
-                                      fecha_publicacion_falla: this.tarea.fecha_publicacion_falla,
-                                      fecha_entrega_falla: this.tarea.fecha_entrega_falla,
+                                      id_tarea_falla: tarea.id_tarea_falla,
+                                      nom_tarea: tarea.nom_tarea,
+                                      descripcion_tarea: tarea.descripcion_tarea,
+                                      fecha_publicacion_falla: tarea.fecha_publicacion_falla,
+                                      fecha_entrega_falla: tarea.fecha_entrega_falla,
                                       idtareaestatus_falla: 3,
-                                      idusuario_admin: this.tarea.idusuario_admin,
-                                      idusuario_encargado: this.tarea.idusuario_encargado,
-                                      idusuario_ayudante: this.tarea.idusuario_ayudante,
-                                      idcatplanta: this.tarea.idcatplanta,
+                                      idusuario_admin: tarea.idusuario_admin,
+                                      idusuario_encargado: tarea.idusuario_encargado,
+                                      idusuario_ayudante: tarea.idusuario_ayudante,
+                                      idcatplanta: tarea.idcatplanta,
                                      
-                                      idtareaprioridad: this.tarea.idtareaprioridad
+                                      idtareaprioridad: tarea.idtareaprioridad
                                     })
                                 });
                                 console.log('La tarea se cambio a pendiente');
